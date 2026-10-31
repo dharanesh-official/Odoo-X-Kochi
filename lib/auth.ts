@@ -24,13 +24,15 @@ export async function requireAdmin() {
         throw new AuthError('Unauthorized: Please log in to proceed')
     }
 
-    const { data: profile, error: profileError } = await supabase
+    const { data: profile } = await supabase
         .from('profiles')
         .select('id, email, full_name, role')
         .eq('id', user.id)
-        .single()
+        .maybeSingle()
 
-    if (profileError || profile?.role !== 'admin') {
+    const role = profile?.role || (user as any).app_metadata?.role || (user as any).user_metadata?.role
+
+    if (role !== 'admin') {
         throw new AuthError('Forbidden: Admin privileges required')
     }
 

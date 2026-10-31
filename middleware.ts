@@ -36,8 +36,8 @@ export async function middleware(request: NextRequest) {
         if (!user) {
             // Not logged in, redirect to login
             const url = request.nextUrl.clone()
-            url.pathname = '/auth/login'
-            url.searchParams.set('error', 'Please login to access admin panel')
+            url.pathname = '/auth/admin-login'
+            url.searchParams.set('error', 'Please login to access the admin console')
             return NextResponse.redirect(url)
         }
 
@@ -46,9 +46,11 @@ export async function middleware(request: NextRequest) {
             .from('profiles')
             .select('role')
             .eq('id', user.id)
-            .single()
+            .maybeSingle()
 
-        if (profile?.role !== 'admin') {
+        const role = profile?.role || (user as any).app_metadata?.role || (user as any).user_metadata?.role
+
+        if (role !== 'admin') {
             // Not an admin, redirect to dashboard
             const url = request.nextUrl.clone()
             url.pathname = '/dashboard'

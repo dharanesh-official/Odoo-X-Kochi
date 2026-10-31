@@ -31,7 +31,7 @@ export async function loginAdmin(formData: FormData) {
     const password = formData.get('password') as string
 
     // 1. Authenticate
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data: authData, error } = await supabase.auth.signInWithPassword({
         email,
         password,
     })
@@ -45,17 +45,24 @@ export async function loginAdmin(formData: FormData) {
         return redirect(`/auth/admin-login?error=${encodeURIComponent(message)}`)
     }
 
-    // 2. Check Roles
-    const { data: { user } } = await supabase.auth.getUser()
+    const user = authData?.user
     if (!user) return redirect('/auth/admin-login')
 
-    const { data: profile } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', user.id)
-        .single()
+    // 2. Check Roles via AdminClient and Auth metadata to avoid RLS blocking or session cookie lag
+    const adminClient = getAdminClient()
+    let role = user.app_metadata?.role || user.user_metadata?.role
 
-    const role = profile?.role || 'customer'
+    if (!role || role !== 'admin') {
+        const queryClient = adminClient || supabase
+        const { data: profile } = await queryClient
+            .from('profiles')
+            .select('role')
+            .eq('id', user.id)
+            .maybeSingle()
+        if (profile?.role) {
+            role = profile.role
+        }
+    }
 
     if (role !== 'admin') {
         await supabase.auth.signOut()
@@ -72,7 +79,7 @@ export async function loginCustomer(formData: FormData) {
     const password = formData.get('password') as string
 
     // 1. Authenticate
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data: authData, error } = await supabase.auth.signInWithPassword({
         email,
         password,
     })
@@ -86,17 +93,22 @@ export async function loginCustomer(formData: FormData) {
         return redirect(`/auth/login?error=${encodeURIComponent(message)}`)
     }
 
-    // 2. Check Roles
-    const { data: { user } } = await supabase.auth.getUser()
+    const user = authData?.user
     if (!user) return redirect('/auth/login')
 
-    const { data: profile } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', user.id)
-        .single()
+    // 2. Check Roles
+    const adminClient = getAdminClient()
+    let role = user.app_metadata?.role || user.user_metadata?.role
 
-    const role = profile?.role || 'customer'
+    if (!role) {
+        const queryClient = adminClient || supabase
+        const { data: profile } = await queryClient
+            .from('profiles')
+            .select('role')
+            .eq('id', user.id)
+            .maybeSingle()
+        role = profile?.role || 'customer'
+    }
 
     if (role === 'admin') {
         await supabase.auth.signOut()
