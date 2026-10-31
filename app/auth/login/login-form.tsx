@@ -45,36 +45,36 @@ export default function LoginForm() {
             transition={{ duration: 0.5 }}
             className="relative z-10"
         >
-            <Card className="w-full max-w-sm border-0 shadow-2xl bg-background/80 backdrop-blur-xl">
-                <CardHeader className="space-y-1">
-                    <CardTitle className="text-2xl font-bold text-center tracking-tight">Customer Portal</CardTitle>
-                    <CardDescription className="text-center">
-                        Enter your email to login to your account.
+            <Card className="w-full border border-border/90 shadow-sm bg-card rounded-xl">
+                <CardHeader className="space-y-1 pb-4">
+                    <CardTitle className="text-xl font-bold text-center tracking-tight text-brand-950">Customer Sign In</CardTitle>
+                    <CardDescription className="text-center text-xs">
+                        Enter your credentials to access your billing portal.
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form action={loginCustomer} onSubmit={() => setLoading(true)} className="grid gap-4">
                         <div className="grid gap-2">
-                            <label htmlFor="email" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Email</label>
-                            <Input id="email" name="email" type="email" placeholder="m@example.com" required className="bg-background/50" />
+                            <label htmlFor="email" className="text-xs font-semibold text-foreground">Email Address</label>
+                            <Input id="email" name="email" type="email" placeholder="name@company.com" required className="bg-background text-sm" />
                         </div>
                         <div className="grid gap-2">
                             <div className="flex items-center">
-                                <label htmlFor="password" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Password</label>
-                                <Link href="/auth/forgot-password" className="ml-auto inline-block text-xs uppercase tracking-wider text-muted-foreground hover:text-primary transition-colors">
+                                <label htmlFor="password" className="text-xs font-semibold text-foreground">Password</label>
+                                <Link href="/auth/forgot-password" className="ml-auto inline-block text-xs font-medium text-brand-700 hover:text-brand-800 transition-colors">
                                     Forgot password?
                                 </Link>
                             </div>
-                            <Input id="password" name="password" type="password" required placeholder="********" className="bg-background/50" />
+                            <Input id="password" name="password" type="password" required placeholder="••••••••" className="bg-background text-sm" />
                         </div>
-                        <Button type="submit" disabled={loading} className="w-full font-bold shadow-lg shadow-primary/20 transition-all hover:scale-[1.02] active:scale-[0.98]">
+                        <Button type="submit" disabled={loading} className="w-full font-semibold bg-brand-700 hover:bg-brand-800 text-white shadow-xs transition-all">
                             {loading ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                                     Signing in...
                                 </>
                             ) : (
-                                "Sign in"
+                                "Sign In to Portal"
                             )}
                         </Button>
                     </form>

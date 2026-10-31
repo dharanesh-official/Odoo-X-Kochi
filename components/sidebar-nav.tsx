@@ -36,23 +36,23 @@ function NavLink({ href, icon: Icon, title, badge }: NavLinkProps) {
         <Link
             href={href}
             className={cn(
-                "group flex items-center justify-between rounded-lg px-3 py-2 text-sm font-medium transition-all duration-150",
+                "group flex items-center justify-between rounded-md px-3 py-2 text-sm font-medium transition-all duration-150",
                 isActive
-                    ? "bg-primary/10 text-primary font-semibold shadow-xs"
-                    : "text-muted-foreground hover:bg-muted hover:text-foreground hover:translate-x-0.5"
+                    ? "bg-brand-100 text-brand-950 font-semibold border-l-2 border-brand-700 pl-2.5 shadow-2xs"
+                    : "text-muted-foreground hover:bg-brand-100/40 hover:text-foreground"
             )}
         >
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2.5">
                 <Icon
                     className={cn(
-                        "h-4 w-4 transition-transform duration-150 group-hover:scale-110",
-                        isActive ? "text-primary" : "text-muted-foreground group-hover:text-foreground"
+                        "h-4 w-4 transition-colors duration-150",
+                        isActive ? "text-brand-800" : "text-muted-foreground group-hover:text-foreground"
                     )}
                 />
                 <span>{title}</span>
             </div>
             {badge !== undefined && badge !== null && Number(badge) > 0 && (
-                <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-primary/15 px-1.5 text-[11px] font-semibold text-primary">
+                <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-brand-700 px-1.5 text-[11px] font-bold text-white">
                     {badge}
                 </span>
             )}

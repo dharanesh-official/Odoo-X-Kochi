@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { logout } from "@/app/auth/actions"
-import { Zap, LogOut } from "lucide-react"
+import { Layers, LogOut } from "lucide-react"
 import { createClient } from "@/utils/supabase/server"
 import { cn } from "@/lib/utils"
 import { SidebarNav } from "./sidebar-nav"
@@ -35,18 +35,18 @@ export default async function Sidebar({ role, className }: SidebarProps) {
     }
 
     return (
-        <aside className={cn("hidden border-r bg-card/60 backdrop-blur-xs md:flex md:flex-col w-[230px] lg:w-[260px]", className)}>
+        <aside className={cn("hidden border-r border-border/80 bg-background md:flex md:flex-col w-[230px] lg:w-[260px]", className)}>
             <div className="flex h-full max-h-screen flex-col gap-2">
                 {/* Brand Header */}
-                <div className="flex h-16 items-center border-b px-5 lg:px-6">
+                <div className="flex h-16 items-center border-b border-border/70 px-5 lg:px-6">
                     <Link href="/" className="flex items-center gap-2.5 font-bold text-base tracking-tight group">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-600 text-white shadow-sm transition-transform duration-200 group-hover:scale-105">
-                            <Zap className="h-4 w-4 fill-white" />
+                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-900 text-brand-100 shadow-xs transition-colors group-hover:bg-brand-800">
+                            <Layers className="h-4 w-4" />
                         </div>
                         <div className="flex flex-col">
-                            <span className="font-extrabold text-foreground tracking-tight leading-none">SubCheck</span>
-                            <span className="text-[10px] text-muted-foreground uppercase font-semibold tracking-wider mt-0.5">
-                                {role === 'admin' ? 'Admin Portal' : 'Customer Hub'}
+                            <span className="font-extrabold text-foreground tracking-tight leading-none">Brightloop</span>
+                            <span className="text-[10px] text-brand-700 uppercase font-semibold tracking-wider mt-0.5">
+                                {role === 'admin' ? 'Admin Console' : 'Customer Portal'}
                             </span>
                         </div>
                     </Link>
@@ -58,10 +58,10 @@ export default async function Sidebar({ role, className }: SidebarProps) {
                 </div>
 
                 {/* User Info & Logout Footer */}
-                <div className="mt-auto border-t p-3 bg-muted/20">
+                <div className="mt-auto border-t border-border/70 p-3 bg-muted/20">
                     <div className="flex items-center justify-between rounded-lg p-2 hover:bg-muted/50 transition-colors">
                         <div className="flex items-center gap-2.5 overflow-hidden">
-                            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary font-bold text-xs">
+                            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-brand-100 text-brand-900 font-bold text-xs border border-brand-400/30">
                                 {userName?.[0]?.toUpperCase() || 'U'}
                             </div>
                             <div className="flex flex-col overflow-hidden text-left">

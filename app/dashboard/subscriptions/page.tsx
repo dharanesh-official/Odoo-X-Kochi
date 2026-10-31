@@ -88,12 +88,12 @@ export default async function MySubscriptionsPage() {
 
             {/* Metric KPI Cards */}
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                <Card className="card-hover border-slate-200/80 shadow-xs">
+                <Card className="card-hover border-border shadow-2xs">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
                         <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                             Active Services
                         </CardTitle>
-                        <Zap className="h-4 w-4 text-blue-600" />
+                        <ShoppingCart className="h-4 w-4 text-brand-700" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold tracking-tight text-foreground">{activeCount}</div>
@@ -101,12 +101,12 @@ export default async function MySubscriptionsPage() {
                     </CardContent>
                 </Card>
 
-                <Card className="card-hover border-slate-200/80 shadow-xs">
+                <Card className="card-hover border-border shadow-2xs">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
                         <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                             Recurring Commitment
                         </CardTitle>
-                        <Calendar className="h-4 w-4 text-indigo-600" />
+                        <Calendar className="h-4 w-4 text-brand-800" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold tracking-tight text-foreground">{formatCurrency(monthlyCommitment)}</div>
@@ -114,12 +114,12 @@ export default async function MySubscriptionsPage() {
                     </CardContent>
                 </Card>
 
-                <Card className="card-hover border-slate-200/80 shadow-xs">
+                <Card className="card-hover border-border shadow-2xs">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
                         <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                             Account Tier
                         </CardTitle>
-                        <Badge variant="secondary" className="font-semibold text-xs capitalize bg-primary/10 text-primary">
+                        <Badge variant="secondary" className="font-semibold text-xs capitalize bg-brand-100 text-brand-900 border-brand-400/40">
                             {activeCount > 0 ? 'Subscriber' : 'Standard'}
                         </Badge>
                     </CardHeader>
@@ -136,16 +136,16 @@ export default async function MySubscriptionsPage() {
 
             {/* Subscriptions Table / Empty State */}
             {subscriptions.length === 0 ? (
-                <Card className="border-dashed border-2 py-12 px-6 text-center bg-card/50">
-                    <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-blue-600 ring-8 ring-blue-50/50 mb-4">
-                        <ShoppingCart className="h-8 w-8" />
+                <Card className="border-dashed border-2 py-12 px-6 text-center bg-card">
+                    <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-brand-100 text-brand-800 ring-8 ring-brand-100/50 mb-4">
+                        <ShoppingCart className="h-7 w-7" />
                     </div>
                     <h3 className="text-lg font-bold text-foreground">No Subscriptions Found</h3>
                     <p className="text-muted-foreground text-sm max-w-md mx-auto mt-2 mb-6">
                         You do not have any active subscriptions yet. Explore our curated pricing plans and get started in seconds.
                     </p>
                     <Link href="/pricing">
-                        <Button className="gap-2 font-medium shadow-sm">
+                        <Button className="gap-2 font-semibold shadow-xs bg-brand-700 hover:bg-brand-800 text-white">
                             <Plus className="h-4 w-4" />
                             Explore Pricing Plans
                         </Button>

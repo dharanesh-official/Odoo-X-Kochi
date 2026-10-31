@@ -31,7 +31,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
       >
-        <NextTopLoader color="#7c3aed" height={4} showSpinner={true} />
+        <NextTopLoader color="#235347" height={3} showSpinner={false} />
         {children}
         <Toaster position="top-center" richColors />
       </body>

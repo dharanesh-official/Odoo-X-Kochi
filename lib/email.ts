@@ -40,29 +40,29 @@ export async function sendConfirmationEmail(data: ConfirmationEmailData) {
 <head>
   <meta charset="utf-8">
   <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #1e293b; background-color: #f8fafc; margin: 0; padding: 0; }
-    .wrapper { max-width: 600px; margin: 30px auto; background: #ffffff; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
-    .header { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #ffffff; padding: 36px 24px; text-align: center; }
-    .header h1 { margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.5px; }
-    .header p { margin: 6px 0 0; color: #94a3b8; font-size: 14px; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #051F20; background-color: #F4F8F5; margin: 0; padding: 0; }
+    .wrapper { max-width: 600px; margin: 30px auto; background: #ffffff; border-radius: 10px; overflow: hidden; border: 1px solid #D8E3DC; box-shadow: 0 4px 6px -1px rgba(5, 31, 32, 0.05); }
+    .header { background: #0B2B26; color: #ffffff; padding: 32px 24px; text-align: center; border-bottom: 2px solid #235347; }
+    .header h1 { margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.5px; color: #ffffff; }
+    .header p { margin: 6px 0 0; color: #8EB69B; font-size: 13px; font-weight: 500; }
     .content { padding: 36px 32px; }
-    .greeting { font-size: 20px; font-weight: 700; color: #0f172a; margin-top: 0; margin-bottom: 16px; }
+    .greeting { font-size: 20px; font-weight: 700; color: #051F20; margin-top: 0; margin-bottom: 16px; }
     .btn-container { text-align: center; margin: 32px 0; }
-    .btn { display: inline-block; background: #2563eb; color: #ffffff !important; padding: 14px 36px; font-weight: 600; font-size: 15px; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25); }
-    .note-box { background: #f1f5f9; border-left: 4px solid #2563eb; padding: 14px 18px; border-radius: 4px; font-size: 13px; color: #475569; margin: 24px 0; }
-    .raw-link { word-break: break-all; font-size: 12px; color: #64748b; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px dashed #cbd5e1; }
-    .footer { text-align: center; color: #94a3b8; font-size: 12px; padding: 24px; background: #f8fafc; border-top: 1px solid #f1f5f9; }
+    .btn { display: inline-block; background: #235347; color: #ffffff !important; padding: 14px 36px; font-weight: 600; font-size: 15px; border-radius: 6px; text-decoration: none; box-shadow: 0 2px 4px rgba(35, 83, 71, 0.2); }
+    .note-box { background: #DAF1DE; border-left: 4px solid #235347; padding: 14px 18px; border-radius: 4px; font-size: 13px; color: #0B2B26; margin: 24px 0; }
+    .raw-link { word-break: break-all; font-size: 12px; color: #536D65; background: #F4F8F5; padding: 10px; border-radius: 6px; border: 1px dashed #8EB69B; }
+    .footer { text-align: center; color: #536D65; font-size: 12px; padding: 24px; background: #F4F8F5; border-top: 1px solid #D8E3DC; }
   </style>
 </head>
 <body>
   <div class="wrapper">
     <div class="header">
-      <h1>⚡ ${BRAND_NAME}</h1>
+      <h1>${BRAND_NAME}</h1>
       <p>Subscription Lifecycle Management System</p>
     </div>
     <div class="content">
-      <div class="greeting">Greetings from ${BRAND_NAME}, ${name}! 👋</div>
-      <p>Thank you for creating an account. We are thrilled to welcome you to our subscription platform.</p>
+      <div class="greeting">Greetings from ${BRAND_NAME}, ${name}</div>
+      <p>Thank you for creating an account. We are pleased to welcome you to our subscription platform.</p>
       <p>To finalize your registration and activate your account, please confirm your email address by clicking the button below:</p>
 
       <div class="btn-container">
@@ -73,12 +73,12 @@ export async function sendConfirmationEmail(data: ConfirmationEmailData) {
         <strong>Security Notice:</strong> This confirmation link will expire in 24 hours. If you did not create an account with us, please disregard this email.
       </div>
 
-      <p style="font-size: 13px; color: #64748b; margin-bottom: 6px;">Button not working? Copy and paste this URL into your browser:</p>
+      <p style="font-size: 13px; color: #536D65; margin-bottom: 6px;">Button not working? Copy and paste this URL into your browser:</p>
       <div class="raw-link">${confirmationUrl}</div>
     </div>
     <div class="footer">
       <p>© ${new Date().getFullYear()} ${BRAND_NAME} Software. All rights reserved.</p>
-      <p>Sent from Gmail SMTP service.</p>
+      <p>Sent via Gmail SMTP service.</p>
     </div>
   </div>
 </body>
@@ -136,22 +136,22 @@ export async function sendPasswordResetEmail(data: PasswordResetEmailData) {
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #1e293b; background-color: #f8fafc; margin: 0; padding: 0; }
     .wrapper { max-width: 600px; margin: 30px auto; background: #ffffff; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
-    .header { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #ffffff; padding: 36px 24px; text-align: center; }
-    .header h1 { margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.5px; }
+    .header { background: #0B2B26; color: #ffffff; padding: 32px 24px; text-align: center; border-bottom: 2px solid #235347; }
+    .header h1 { margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.5px; color: #ffffff; }
     .content { padding: 36px 32px; }
-    .greeting { font-size: 20px; font-weight: 700; color: #0f172a; margin-top: 0; margin-bottom: 16px; }
+    .greeting { font-size: 20px; font-weight: 700; color: #051F20; margin-top: 0; margin-bottom: 16px; }
     .btn-container { text-align: center; margin: 32px 0; }
-    .btn { display: inline-block; background: #dc2626; color: #ffffff !important; padding: 14px 36px; font-weight: 600; font-size: 15px; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 10px rgba(220, 38, 38, 0.25); }
+    .btn { display: inline-block; background: #235347; color: #ffffff !important; padding: 14px 36px; font-weight: 600; font-size: 15px; border-radius: 6px; text-decoration: none; box-shadow: 0 2px 4px rgba(35, 83, 71, 0.2); }
     .warning-box { background: #fef2f2; border-left: 4px solid #ef4444; padding: 14px 18px; border-radius: 4px; font-size: 13px; color: #991b1b; margin: 24px 0; }
-    .raw-link { word-break: break-all; font-size: 12px; color: #64748b; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px dashed #cbd5e1; }
-    .footer { text-align: center; color: #94a3b8; font-size: 12px; padding: 24px; background: #f8fafc; border-top: 1px solid #f1f5f9; }
+    .raw-link { word-break: break-all; font-size: 12px; color: #536D65; background: #F4F8F5; padding: 10px; border-radius: 6px; border: 1px dashed #8EB69B; }
+    .footer { text-align: center; color: #536D65; font-size: 12px; padding: 24px; background: #F4F8F5; border-top: 1px solid #D8E3DC; }
   </style>
 </head>
 <body>
   <div class="wrapper">
     <div class="header">
-      <h1>⚡ ${BRAND_NAME}</h1>
-      <p style="margin: 6px 0 0; color: #94a3b8; font-size: 14px;">Password Recovery Request</p>
+      <h1>${BRAND_NAME}</h1>
+      <p style="margin: 6px 0 0; color: #8EB69B; font-size: 13px; font-weight: 500;">Password Recovery Request</p>
     </div>
     <div class="content">
       <div class="greeting">Hello ${name},</div>
@@ -221,49 +221,49 @@ export async function sendWelcomeEmail(email: string, name: string) {
 <head>
   <meta charset="utf-8">
   <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #1e293b; background-color: #f8fafc; margin: 0; padding: 0; }
-    .wrapper { max-width: 600px; margin: 30px auto; background: #ffffff; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
-    .header { background: linear-gradient(135deg, #059669 0%, #0f766e 100%); color: #ffffff; padding: 40px 24px; text-align: center; }
-    .header h1 { margin: 0; font-size: 28px; font-weight: 800; letter-spacing: -0.5px; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #051F20; background-color: #F4F8F5; margin: 0; padding: 0; }
+    .wrapper { max-width: 600px; margin: 30px auto; background: #ffffff; border-radius: 10px; overflow: hidden; border: 1px solid #D8E3DC; box-shadow: 0 4px 6px -1px rgba(5, 31, 32, 0.05); }
+    .header { background: #0B2B26; color: #ffffff; padding: 36px 24px; text-align: center; border-bottom: 2px solid #235347; }
+    .header h1 { margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -0.5px; color: #ffffff; }
     .content { padding: 36px 32px; }
-    .greeting { font-size: 22px; font-weight: 700; color: #0f172a; margin-top: 0; margin-bottom: 16px; }
-    .feature-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin: 16px 0; }
-    .feature-title { font-weight: 600; color: #0f172a; margin-bottom: 4px; }
+    .greeting { font-size: 20px; font-weight: 700; color: #051F20; margin-top: 0; margin-bottom: 16px; }
+    .feature-card { background: #F4F8F5; border: 1px solid #D8E3DC; border-radius: 6px; padding: 16px; margin: 16px 0; }
+    .feature-title { font-weight: 600; color: #0B2B26; font-size: 14px; margin-bottom: 4px; }
     .btn-container { text-align: center; margin: 32px 0; }
-    .btn { display: inline-block; background: #059669; color: #ffffff !important; padding: 14px 36px; font-weight: 600; font-size: 15px; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 10px rgba(5, 150, 105, 0.25); }
-    .footer { text-align: center; color: #94a3b8; font-size: 12px; padding: 24px; background: #f8fafc; border-top: 1px solid #f1f5f9; }
+    .btn { display: inline-block; background: #235347; color: #ffffff !important; padding: 14px 36px; font-weight: 600; font-size: 15px; border-radius: 6px; text-decoration: none; box-shadow: 0 2px 4px rgba(35, 83, 71, 0.2); }
+    .footer { text-align: center; color: #536D65; font-size: 12px; padding: 24px; background: #F4F8F5; border-top: 1px solid #D8E3DC; }
   </style>
 </head>
 <body>
   <div class="wrapper">
     <div class="header">
-      <h1>🚀 Welcome to ${BRAND_NAME}!</h1>
-      <p style="margin: 6px 0 0; color: #a7f3d0; font-size: 14px;">Your subscription command center is ready</p>
+      <h1>Welcome to ${BRAND_NAME}</h1>
+      <p style="margin: 6px 0 0; color: #8EB69B; font-size: 13px; font-weight: 500;">Your subscription command center is ready</p>
     </div>
     <div class="content">
-      <div class="greeting">Hi ${name}, welcome aboard! 👋</div>
-      <p>We are excited to have you with us. Your account is verified and ready for action. Here is what you can do right now:</p>
+      <div class="greeting">Hi ${name}, welcome aboard!</div>
+      <p>We are pleased to have you with us. Your account is active and verified. Here are key capabilities ready for you:</p>
 
       <div class="feature-card">
-        <div class="feature-title">📦 Flexible Subscriptions</div>
-        <div style="font-size: 13px; color: #64748b;">Browse tailored plans, start trials, and manage recurring services seamlessly.</div>
+        <div class="feature-title">Flexible Subscriptions</div>
+        <div style="font-size: 13px; color: #536D65;">Browse tailored plans, start trials, and manage recurring services seamlessly.</div>
       </div>
 
       <div class="feature-card">
-        <div class="feature-title">🧾 Instant Invoices & Receipts</div>
-        <div style="font-size: 13px; color: #64748b;">Access computer-generated PDF invoices, view transparent GST tax breakdowns, and track payment history.</div>
+        <div class="feature-title">Instant Invoices & Receipts</div>
+        <div style="font-size: 13px; color: #536D65;">Access computerized invoices, view transparent GST breakdowns, and track payment history.</div>
       </div>
 
       <div class="feature-card">
-        <div class="feature-title">💳 Secure Payments</div>
-        <div style="font-size: 13px; color: #64748b;">Instant settlements through Stripe and Razorpay with complete balance tracking.</div>
+        <div class="feature-title">Multi-Channel Settlement</div>
+        <div style="font-size: 13px; color: #536D65;">Instant settlements through Razorpay and manual bank transfers with automatic reconciliation.</div>
       </div>
 
       <div class="btn-container">
-        <a href="${dashboardUrl}" class="btn" target="_blank">Go to My Dashboard</a>
+        <a href="${dashboardUrl}" class="btn" target="_blank">Access Customer Dashboard</a>
       </div>
 
-      <p style="font-size: 13px; color: #64748b;">Need help or have questions? Simply reply to this email anytime — our team is here for you.</p>
+      <p style="font-size: 13px; color: #536D65;">Need assistance or have questions? Simply reply to this email anytime — our operations team is ready to assist.</p>
     </div>
     <div class="footer">
       <p>© ${new Date().getFullYear()} ${BRAND_NAME} Software. All rights reserved.</p>
@@ -275,7 +275,7 @@ export async function sendWelcomeEmail(email: string, name: string) {
   `
 
   const textContent = `
-Hi ${name}, welcome aboard to ${BRAND_NAME}! 🚀
+Hi ${name}, welcome aboard to ${BRAND_NAME}!
 
 Your account is now fully active. You can browse subscriptions, view invoices, and manage payment methods directly from your customer dashboard:
 
@@ -292,7 +292,7 @@ The ${BRAND_NAME} Team
     const info = await transporter.sendMail({
       from: FROM_HEADER(),
       to: email,
-      subject: `Welcome to ${BRAND_NAME}! Your account is active 🚀`,
+      subject: `Welcome to ${BRAND_NAME}! Your account is active`,
       text: textContent,
       html: htmlContent,
     })
@@ -343,28 +343,28 @@ export async function sendInvoiceEmail(data: InvoiceEmailData) {
 <head>
   <meta charset="utf-8">
   <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #1e293b; background-color: #f8fafc; margin: 0; padding: 0; }
-    .wrapper { max-width: 600px; margin: 30px auto; background: #ffffff; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
-    .header { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #ffffff; padding: 36px 24px; text-align: center; }
-    .header h1 { margin: 0; font-size: 26px; font-weight: 800; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #051F20; background-color: #F4F8F5; margin: 0; padding: 0; }
+    .wrapper { max-width: 600px; margin: 30px auto; background: #ffffff; border-radius: 10px; overflow: hidden; border: 1px solid #D8E3DC; box-shadow: 0 4px 6px -1px rgba(5, 31, 32, 0.05); }
+    .header { background: #0B2B26; color: #ffffff; padding: 32px 24px; text-align: center; border-bottom: 2px solid #235347; }
+    .header h1 { margin: 0; font-size: 24px; font-weight: 800; color: #ffffff; }
     .content { padding: 36px 32px; }
-    .greeting { font-size: 20px; font-weight: 700; color: #0f172a; margin-top: 0; margin-bottom: 16px; }
-    .invoice-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin: 24px 0; }
+    .greeting { font-size: 20px; font-weight: 700; color: #051F20; margin-top: 0; margin-bottom: 16px; }
+    .invoice-card { background: #F4F8F5; border: 1px solid #D8E3DC; border-radius: 8px; padding: 20px; margin: 24px 0; }
     .row { display: flex; justify-content: space-between; margin: 10px 0; font-size: 14px; }
-    .total-row { font-size: 18px; font-weight: 700; border-top: 2px solid #0f172a; padding-top: 12px; margin-top: 12px; color: #0f172a; }
+    .total-row { font-size: 18px; font-weight: 700; border-top: 2px solid #0B2B26; padding-top: 12px; margin-top: 12px; color: #051F20; }
     .btn-container { text-align: center; margin: 32px 0; }
-    .btn { display: inline-block; background: #059669; color: #ffffff !important; padding: 14px 36px; font-weight: 600; font-size: 15px; border-radius: 8px; text-decoration: none; box-shadow: 0 4px 10px rgba(5, 150, 105, 0.25); }
-    .footer { text-align: center; color: #94a3b8; font-size: 12px; padding: 24px; background: #f8fafc; border-top: 1px solid #f1f5f9; }
+    .btn { display: inline-block; background: #235347; color: #ffffff !important; padding: 14px 36px; font-weight: 600; font-size: 15px; border-radius: 6px; text-decoration: none; box-shadow: 0 2px 4px rgba(35, 83, 71, 0.2); }
+    .footer { text-align: center; color: #536D65; font-size: 12px; padding: 24px; background: #F4F8F5; border-top: 1px solid #D8E3DC; }
   </style>
 </head>
 <body>
   <div class="wrapper">
     <div class="header">
-      <h1>⚡ ${BRAND_NAME}</h1>
-      <p style="margin: 6px 0 0; color: #94a3b8; font-size: 14px;">Invoice Issued #${invoiceNumber}</p>
+      <h1>${BRAND_NAME}</h1>
+      <p style="margin: 6px 0 0; color: #8EB69B; font-size: 13px; font-weight: 500;">Invoice Issued #${invoiceNumber}</p>
     </div>
     <div class="content">
-      <div class="greeting">Greetings, ${customerName}! 👋</div>
+      <div class="greeting">Greetings, ${customerName}</div>
       <p>A new invoice has been generated for your active subscription and is ready for payment.</p>
 
       <div class="invoice-card">

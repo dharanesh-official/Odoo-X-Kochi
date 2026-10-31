@@ -75,25 +75,25 @@ export default async function CustomerPaymentsPage() {
 
             {/* Metric KPI Cards */}
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                <Card className="card-hover border-emerald-100 bg-emerald-50/20 shadow-xs">
+                <Card className="card-hover border-brand-400/40 bg-brand-100/30 shadow-2xs">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-xs font-semibold uppercase tracking-wider text-emerald-800">
+                        <CardTitle className="text-xs font-semibold uppercase tracking-wider text-brand-900">
                             Total Settled
                         </CardTitle>
-                        <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                        <CheckCircle2 className="h-4 w-4 text-brand-700" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-2xl font-bold tracking-tight text-emerald-900">{formatCurrency(totalSettled)}</div>
-                        <p className="text-xs text-emerald-700/80 mt-1">Confirmed payments completed</p>
+                        <div className="text-2xl font-bold tracking-tight text-brand-950">{formatCurrency(totalSettled)}</div>
+                        <p className="text-xs text-brand-800/80 mt-1">Confirmed payments completed</p>
                     </CardContent>
                 </Card>
 
-                <Card className="card-hover border-slate-200/80 shadow-xs">
+                <Card className="card-hover border-border shadow-2xs">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
                         <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                             Transactions Count
                         </CardTitle>
-                        <CreditCard className="h-4 w-4 text-blue-600" />
+                        <CreditCard className="h-4 w-4 text-brand-700" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold tracking-tight text-foreground">{payments.length}</div>
@@ -101,12 +101,12 @@ export default async function CustomerPaymentsPage() {
                     </CardContent>
                 </Card>
 
-                <Card className="card-hover border-slate-200/80 shadow-xs">
+                <Card className="card-hover border-border shadow-2xs">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
                         <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                             Last Payment
                         </CardTitle>
-                        <Clock className="h-4 w-4 text-indigo-600" />
+                        <Clock className="h-4 w-4 text-brand-800" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-base font-bold tracking-tight text-foreground">
@@ -123,9 +123,9 @@ export default async function CustomerPaymentsPage() {
 
             {/* Payments Table / Empty State */}
             {payments.length === 0 ? (
-                <Card className="border-dashed border-2 py-12 px-6 text-center bg-card/50">
-                    <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-blue-600 ring-8 ring-blue-50/50 mb-4">
-                        <Wallet className="h-8 w-8" />
+                <Card className="border-dashed border-2 py-12 px-6 text-center bg-card">
+                    <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-brand-100 text-brand-800 ring-8 ring-brand-100/50 mb-4">
+                        <Wallet className="h-7 w-7" />
                     </div>
                     <h3 className="text-lg font-bold text-foreground">No Payments Recorded Yet</h3>
                     <p className="text-muted-foreground text-sm max-w-md mx-auto mt-2 mb-6">
@@ -133,13 +133,13 @@ export default async function CustomerPaymentsPage() {
                     </p>
                     <div className="flex justify-center gap-3">
                         <Link href="/dashboard/invoices">
-                            <Button variant="outline" className="gap-2">
+                            <Button variant="outline" className="gap-2 font-medium">
                                 <Receipt className="h-4 w-4" />
                                 View Invoices
                             </Button>
                         </Link>
                         <Link href="/pricing">
-                            <Button className="gap-2 shadow-xs">
+                            <Button className="gap-2 font-semibold shadow-xs bg-brand-700 hover:bg-brand-800 text-white">
                                 <Plus className="h-4 w-4" />
                                 Subscribe to a Plan
                             </Button>

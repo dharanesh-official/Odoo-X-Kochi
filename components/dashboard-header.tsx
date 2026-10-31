@@ -3,7 +3,7 @@ import { NotificationButton } from '@/components/notification-button'
 import { logout } from '@/app/auth/actions'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { User, LogOut, Sparkles } from 'lucide-react'
+import { User, LogOut, ShieldCheck } from 'lucide-react'
 
 interface DashboardHeaderProps {
     user: {
@@ -29,27 +29,27 @@ export function DashboardHeader({ user, role = 'customer' }: DashboardHeaderProp
             <div className="flex items-center gap-3">
                 <Badge
                     variant="secondary"
-                    className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 font-medium bg-emerald-50 text-emerald-700 border-emerald-200"
+                    className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 font-medium bg-brand-100 text-brand-900 border-brand-400/40"
                 >
-                    <Sparkles className="h-3.5 w-3.5 text-emerald-600" />
+                    <ShieldCheck className="h-3.5 w-3.5 text-brand-700" />
                     {role === 'admin' ? 'Admin Portal' : 'Customer Portal'}
                 </Badge>
                 <div className="hidden md:flex items-center text-sm text-muted-foreground">
-                    <span className="font-medium text-foreground">SubCheck</span>
+                    <span className="font-semibold text-foreground">Brightloop</span>
                     <span className="mx-2">/</span>
-                    <span className="capitalize">{role === 'admin' ? 'Management' : 'Self-Service'}</span>
+                    <span className="capitalize">{role === 'admin' ? 'Operations' : 'Self-Service'}</span>
                 </div>
             </div>
 
             <div className="flex items-center gap-3">
                 <NotificationButton />
 
-                <div className="flex items-center gap-2 pl-2 border-l">
+                <div className="flex items-center gap-2 pl-2 border-l border-border">
                     <Link
                         href={role === 'admin' ? '/admin/settings' : '/dashboard/profile'}
                         className="flex items-center gap-2.5 rounded-full p-1 pr-3 hover:bg-muted/80 transition-colors"
                     >
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 font-semibold text-xs text-white shadow-sm">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-900 font-semibold text-xs text-brand-100 shadow-2xs">
                             {initials}
                         </div>
                         <div className="hidden md:flex flex-col text-left">

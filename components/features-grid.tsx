@@ -1,91 +1,96 @@
-
 'use client'
 
 import { motion } from "framer-motion"
-import { BarChart3, ShieldCheck, RefreshCw, Zap, Users, Globe } from "lucide-react"
+import { RefreshCw, BarChart3, ShieldCheck, Zap, Users, Receipt, CreditCard, SlidersHorizontal } from "lucide-react"
 
-const features = [
+const capabilities = [
     {
         icon: RefreshCw,
-        title: "Automated Billing",
-        desc: "Scheulde recurring invoices and payments automatically.",
-        color: "text-blue-500"
+        title: "Automated Recurring Engine",
+        desc: "Schedule automated billing runs, generate draft or posted invoices, and advance subscription periods with idempotent cron tasks.",
+        category: "Billing Automation"
+    },
+    {
+        icon: Receipt,
+        title: "Itemized Tax & Invoicing",
+        desc: "Snapshot product line items, calculate percentage or fixed taxes, and issue professional print-ready GST invoices.",
+        category: "Financial Accuracy"
+    },
+    {
+        icon: CreditCard,
+        title: "Instant Multi-Channel Settlement",
+        desc: "Collect online payments via integrated Razorpay gateway or register manual bank transfers with automatic invoice clearing.",
+        category: "Payments"
+    },
+    {
+        icon: SlidersHorizontal,
+        title: "Flexible Catalog & Tiers",
+        desc: "Configure recurring intervals (daily, weekly, monthly, yearly), customize trial days, and apply dynamic discount structures.",
+        category: "Product Management"
     },
     {
         icon: BarChart3,
-        title: "Real-time Analytics",
-        desc: "Track MRR, Churn, and ARPU instantly with live charts.",
-        color: "text-green-500"
+        title: "Real-Time Revenue Analytics",
+        desc: "Monitor active subscriber counts, recurring run history, invoice aging, and payment settlement rates directly from your command center.",
+        category: "Operations"
     },
     {
         icon: ShieldCheck,
-        title: "Enterprise Security",
-        desc: "Role-based access control and bank-grade encryption.",
-        color: "text-purple-500"
-    },
-    {
-        icon: Zap,
-        title: "Instant Setup",
-        desc: "Deploy in minutes with our one-click integration.",
-        color: "text-yellow-500"
-    },
-    {
-        icon: Users,
-        title: "Team Collaboration",
-        desc: "Invite your whole team with granular permissions.",
-        color: "text-pink-500"
-    },
-    {
-        icon: Globe,
-        title: "Global Payments",
-        desc: "Accept payments in 135+ currencies worldwide.",
-        color: "text-cyan-500"
+        title: "Role-Based Access & Audit Logs",
+        desc: "Enforce strict separation between administrative controllers and customer self-service portals with immutable activity tracking.",
+        category: "Security"
     }
 ]
 
 export function FeaturesGrid() {
     return (
-        <section id="features" className="container space-y-12 bg-slate-50/50 py-12 md:py-24 lg:py-32 dark:bg-transparent px-4 rounded-3xl mb-12 border relative overflow-hidden">
-            <div className="absolute inset-0 bg-grid-slate-200 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))] dark:bg-grid-slate-700/25 dark:[mask-image:linear-gradient(0deg,rgba(255,255,255,0.1),rgba(255,255,255,0.5))]" style={{ backgroundSize: '40px 40px' }} />
+        <section id="features" className="py-20 md:py-28 bg-muted/30">
+            <div className="container max-w-6xl px-4 md:px-8 mx-auto">
+                {/* Section Header */}
+                <div className="max-w-2xl mx-auto text-center space-y-3 mb-16">
+                    <span className="text-xs font-bold tracking-wider uppercase text-brand-700 bg-brand-100/70 border border-brand-400/30 px-3 py-1 rounded-full inline-block">
+                        Enterprise Capabilities
+                    </span>
+                    <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-brand-950">
+                        Designed for Complete Billing Control
+                    </h2>
+                    <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+                        Every feature is purpose-built to eliminate manual intervention, reduce churn, and maintain an audit-proof financial ledger.
+                    </p>
+                </div>
 
-            <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-4 text-center relative z-10">
-                <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-600">
-                    Built for Growth. Engineered for Speed.
-                </h2>
-                <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-                    Everything you need to manage your subscription business in one place.
-                </p>
-            </div>
-
-            <div className="mx-auto grid justify-center gap-6 sm:grid-cols-2 lg:grid-cols-3 max-w-6xl relative z-10">
-                {features.map((feature, i) => (
-                    <motion.div
-                        key={i}
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        whileHover={{
-                            y: -8,
-                            scale: 1.02,
-                            boxShadow: "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)"
-                        }}
-                        transition={{ duration: 0.2, delay: i * 0.1 }}
-                        viewport={{ once: true }}
-                        className="relative overflow-hidden rounded-xl border bg-background/50 backdrop-blur-sm p-6 transition-all duration-150 hover:border-primary hover:bg-muted/30 group cursor-pointer"
-                    >
-                        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-
-                        <div className="flex h-[180px] flex-col justify-between rounded-md relative z-10">
-                            <div className={`p-3 w-fit rounded-lg bg-muted group-hover:bg-primary/20 
-                                group-hover:scale-110 group-hover:rotate-3 transition-all duration-150 ease-out origin-left`}>
-                                <feature.icon className={`h-8 w-8 ${feature.color}`} />
+                {/* Features Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {capabilities.map((item, idx) => (
+                        <motion.div
+                            key={idx}
+                            initial={{ opacity: 0, y: 15 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.35, delay: idx * 0.05 }}
+                            className="flex flex-col justify-between rounded-xl border border-border/80 bg-card p-6 shadow-xs hover:border-brand-700/40 hover:shadow-sm transition-all duration-200"
+                        >
+                            <div className="space-y-4">
+                                <div className="flex items-center justify-between">
+                                    <div className="h-10 w-10 rounded-lg bg-brand-100 text-brand-800 flex items-center justify-center border border-brand-400/20">
+                                        <item.icon className="h-5 w-5" />
+                                    </div>
+                                    <span className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider">
+                                        {item.category}
+                                    </span>
+                                </div>
+                                <div className="space-y-1.5">
+                                    <h3 className="font-bold text-base text-brand-950">
+                                        {item.title}
+                                    </h3>
+                                    <p className="text-sm text-muted-foreground leading-relaxed">
+                                        {item.desc}
+                                    </p>
+                                </div>
                             </div>
-                            <div className="space-y-2">
-                                <h3 className="font-bold text-xl group-hover:text-primary transition-colors duration-200">{feature.title}</h3>
-                                <p className="text-sm text-muted-foreground leading-relaxed">{feature.desc}</p>
-                            </div>
-                        </div>
-                    </motion.div>
-                ))}
+                        </motion.div>
+                    ))}
+                </div>
             </div>
         </section>
     )

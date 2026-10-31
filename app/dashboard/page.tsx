@@ -16,7 +16,8 @@ import {
     Clock,
     AlertCircle,
     User,
-    ExternalLink
+    ExternalLink,
+    ShieldCheck
 } from "lucide-react"
 
 export const dynamic = 'force-dynamic'
@@ -74,33 +75,30 @@ export default async function CustomerDashboard() {
 
     return (
         <div className="space-y-6">
-            {/* Hero Welcome Banner */}
-            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 p-6 sm:p-8 text-white shadow-md">
-                <div className="relative z-10 max-w-2xl">
-                    <Badge variant="secondary" className="mb-3 bg-white/10 text-white border-white/20 hover:bg-white/20 gap-1.5 px-3 py-1 text-xs">
-                        <Sparkles className="h-3.5 w-3.5 text-blue-300" />
-                        Customer Self-Service Hub
-                    </Badge>
-                    <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-                        Welcome back, {fullName}! 👋
+            {/* Executive Operations Banner */}
+            <div className="rounded-xl border border-border/80 bg-brand-900 p-6 sm:p-8 text-white shadow-2xs">
+                <div className="max-w-2xl">
+                    <div className="inline-flex items-center gap-1.5 rounded-full border border-brand-400/30 bg-brand-800/80 px-3 py-0.5 text-xs font-semibold text-brand-100 mb-3">
+                        <ShieldCheck className="h-3.5 w-3.5 text-brand-400" />
+                        <span>Customer Account Command Center</span>
+                    </div>
+                    <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+                        Welcome back, {fullName}
                     </h1>
-                    <p className="text-slate-300 text-sm sm:text-base mt-2 leading-relaxed">
-                        Here is the live operational overview of your active subscriptions, billing renewals, and settled payments.
+                    <p className="text-brand-100/80 text-sm sm:text-base mt-2 leading-relaxed">
+                        Live operational overview of your subscriptions, billing cycle renewals, and verified payment settlements.
                     </p>
                 </div>
-                {/* Decorative background glow */}
-                <div className="absolute right-0 top-0 -mt-12 -mr-12 h-64 w-64 rounded-full bg-blue-500/20 blur-3xl pointer-events-none" />
-                <div className="absolute right-32 bottom-0 -mb-12 h-48 w-48 rounded-full bg-indigo-500/20 blur-2xl pointer-events-none" />
             </div>
 
-            {/* Quick KPI Cards */}
+            {/* Quick KPI Metrics */}
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                <Card className="card-hover border-slate-200/80 shadow-xs">
+                <Card className="card-hover border-border shadow-2xs">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
                         <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                            Subscription
+                            Active Plan
                         </CardTitle>
-                        <ShoppingCart className="h-4 w-4 text-blue-600" />
+                        <ShoppingCart className="h-4 w-4 text-brand-700" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-xl font-bold tracking-tight text-foreground truncate">
@@ -112,12 +110,12 @@ export default async function CustomerDashboard() {
                     </CardContent>
                 </Card>
 
-                <Card className="card-hover border-slate-200/80 shadow-xs">
+                <Card className="card-hover border-border shadow-2xs">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
                         <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                            Next Billing
+                            Next Billing Date
                         </CardTitle>
-                        <Calendar className="h-4 w-4 text-indigo-600" />
+                        <Calendar className="h-4 w-4 text-brand-700" />
                     </CardHeader>
                     <CardContent>
                         <div className="text-xl font-bold tracking-tight text-foreground">
@@ -131,28 +129,28 @@ export default async function CustomerDashboard() {
                     </CardContent>
                 </Card>
 
-                <Card className="card-hover border-emerald-100 bg-emerald-50/20 shadow-xs">
+                <Card className="card-hover border-brand-400/40 bg-brand-100/30 shadow-2xs">
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
-                        <CardTitle className="text-xs font-semibold uppercase tracking-wider text-emerald-800">
+                        <CardTitle className="text-xs font-semibold uppercase tracking-wider text-brand-900">
                             Total Settled
                         </CardTitle>
-                        <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                        <CheckCircle2 className="h-4 w-4 text-brand-700" />
                     </CardHeader>
                     <CardContent>
-                        <div className="text-xl font-bold tracking-tight text-emerald-900">{formatCurrency(totalSettled)}</div>
-                        <p className="text-xs text-emerald-700/80 mt-1">Confirmed payments</p>
+                        <div className="text-xl font-bold tracking-tight text-brand-950">{formatCurrency(totalSettled)}</div>
+                        <p className="text-xs text-brand-800/80 mt-1">Confirmed payments</p>
                     </CardContent>
                 </Card>
 
-                <Card className={`card-hover border-slate-200/80 shadow-xs ${pendingBalance > 0 ? 'border-amber-200 bg-amber-50/20' : ''}`}>
+                <Card className={`card-hover border-border shadow-2xs ${pendingBalance > 0 ? 'border-amber-300 bg-amber-50/40' : ''}`}>
                     <CardHeader className="flex flex-row items-center justify-between pb-2">
                         <CardTitle className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                            Pending Due
+                            Pending Balance
                         </CardTitle>
-                        <AlertCircle className={`h-4 w-4 ${pendingBalance > 0 ? 'text-amber-600' : 'text-slate-400'}`} />
+                        <AlertCircle className={`h-4 w-4 ${pendingBalance > 0 ? 'text-amber-600' : 'text-muted-foreground'}`} />
                     </CardHeader>
                     <CardContent>
-                        <div className={`text-xl font-bold tracking-tight ${pendingBalance > 0 ? 'text-amber-700' : 'text-foreground'}`}>
+                        <div className={`text-xl font-bold tracking-tight ${pendingBalance > 0 ? 'text-amber-800' : 'text-foreground'}`}>
                             {formatCurrency(pendingBalance)}
                         </div>
                         <p className="text-xs text-muted-foreground mt-1">
@@ -242,36 +240,35 @@ export default async function CustomerDashboard() {
                     </CardHeader>
                     <CardContent className="space-y-2.5">
                         <Link href="/dashboard/invoices" className="block">
-                            <Button variant="outline" className="w-full justify-between font-medium group hover:bg-muted/80">
+                            <Button variant="outline" className="w-full justify-between font-medium group hover:bg-brand-100/30">
                                 <span className="flex items-center gap-2">
-                                    <Receipt className="h-4 w-4 text-blue-600" />
+                                    <Receipt className="h-4 w-4 text-brand-700" />
                                     View All Invoices
                                 </span>
                                 <ArrowRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
                             </Button>
                         </Link>
                         <Link href="/dashboard/payments" className="block">
-                            <Button variant="outline" className="w-full justify-between font-medium group hover:bg-muted/80">
+                            <Button variant="outline" className="w-full justify-between font-medium group hover:bg-brand-100/30">
                                 <span className="flex items-center gap-2">
-                                    <Wallet className="h-4 w-4 text-emerald-600" />
+                                    <Wallet className="h-4 w-4 text-brand-800" />
                                     Payment Receipts
                                 </span>
                                 <ArrowRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
                             </Button>
                         </Link>
                         <Link href="/dashboard/profile" className="block">
-                            <Button variant="outline" className="w-full justify-between font-medium group hover:bg-muted/80">
+                            <Button variant="outline" className="w-full justify-between font-medium group hover:bg-brand-100/30">
                                 <span className="flex items-center gap-2">
-                                    <User className="h-4 w-4 text-indigo-600" />
+                                    <User className="h-4 w-4 text-brand-900" />
                                     Billing & Profile Info
                                 </span>
                                 <ArrowRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
                             </Button>
                         </Link>
-                        <Link href="/pricing" className="block pt-2 border-t">
-                            <Button className="w-full justify-between font-semibold shadow-xs">
+                        <Link href="/pricing" className="block pt-2 border-t border-border">
+                            <Button className="w-full justify-between font-semibold shadow-xs bg-brand-700 hover:bg-brand-800 text-white">
                                 <span className="flex items-center gap-2">
-                                    <Sparkles className="h-4 w-4" />
                                     Browse Product Catalog
                                 </span>
                                 <ArrowRight className="h-4 w-4" />

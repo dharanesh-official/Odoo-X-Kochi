@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { Zap, Menu } from "lucide-react"
+import { Layers, Menu, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
     Sheet,
@@ -14,60 +14,98 @@ export function Navbar() {
     const [isOpen, setIsOpen] = React.useState(false)
 
     return (
-        <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-            <div className="container flex h-16 items-center px-4 md:px-6 justify-between">
-                <div className="flex items-center gap-2">
-                    <Link className="flex items-center space-x-2" href="/">
-                        <div className="h-8 w-8 bg-black dark:bg-white rounded-lg flex items-center justify-center">
-                            <Zap className="h-5 w-5 text-white dark:text-black fill-current" />
+        <header className="sticky top-0 z-50 w-full border-b border-border/80 bg-background/95 backdrop-blur-md">
+            <div className="container flex h-16 items-center px-4 md:px-8 justify-between max-w-7xl mx-auto">
+                <div className="flex items-center gap-8">
+                    <Link className="flex items-center space-x-2.5 group" href="/">
+                        <div className="h-8 w-8 rounded-lg bg-brand-900 text-brand-100 flex items-center justify-center shadow-xs transition-colors group-hover:bg-brand-800">
+                            <Layers className="h-4 w-4" />
                         </div>
-                        <span className="font-bold sm:inline-block text-lg">
-                            SubCheck
-                        </span>
+                        <div className="flex flex-col">
+                            <span className="font-bold text-foreground text-base tracking-tight leading-none">
+                                Brightloop
+                            </span>
+                            <span className="text-[10px] text-brand-700 font-semibold tracking-wider uppercase mt-0.5">
+                                Subscriptions
+                            </span>
+                        </div>
                     </Link>
-                </div>
 
-                {/* Desktop Nav */}
-                <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-                    <Link className="transition-colors hover:text-foreground/80 text-foreground/60" href="#features">Features</Link>
-                    <Link className="transition-colors hover:text-foreground/80 text-foreground/60" href="/pricing">Pricing</Link>
-                </nav>
+                    {/* Desktop Navigation */}
+                    <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
+                        <Link className="text-muted-foreground transition-colors hover:text-foreground" href="#features">
+                            Features
+                        </Link>
+                        <Link className="text-muted-foreground transition-colors hover:text-foreground" href="/pricing">
+                            Pricing
+                        </Link>
+                        <Link className="text-muted-foreground transition-colors hover:text-foreground" href="#architecture">
+                            Lifecycle
+                        </Link>
+                    </nav>
+                </div>
 
                 {/* Desktop Auth */}
-                <div className="hidden md:flex items-center space-x-4">
+                <div className="hidden md:flex items-center space-x-3">
                     <Link href="/auth/login">
-                        <Button variant="ghost" size="sm">Log In</Button>
+                        <Button variant="ghost" size="sm" className="font-medium text-foreground hover:bg-brand-100/40">
+                            Log In
+                        </Button>
                     </Link>
-                    <Link href="/auth/signup">
-                        <Button size="sm" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition-all shadow-md">Get Started</Button>
+                    <Link href="/pricing">
+                        <Button size="sm" className="bg-brand-700 hover:bg-brand-800 text-white font-medium shadow-xs gap-1.5 transition-all">
+                            <span>Get Started</span>
+                            <ArrowRight className="h-3.5 w-3.5" />
+                        </Button>
                     </Link>
                 </div>
 
-                {/* Mobile Menu Trigger */}
+                {/* Mobile Menu */}
                 <Sheet open={isOpen} onOpenChange={setIsOpen}>
                     <SheetTrigger asChild>
-                        <Button variant="ghost" className="px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 md:hidden">
-                            <Menu className="h-6 w-6" />
+                        <Button variant="ghost" size="icon" className="md:hidden text-foreground">
+                            <Menu className="h-5 w-5" />
                             <span className="sr-only">Toggle Menu</span>
                         </Button>
                     </SheetTrigger>
-                    <SheetContent side="right" className="w-[300px] sm:w-[400px]">
-                        <div className="flex flex-col gap-6 py-6">
-                            <div className="flex flex-col gap-2">
-                                <Link href="#features" className="text-lg font-medium hover:text-primary transition-colors" onClick={() => setIsOpen(false)}>
+                    <SheetContent side="right" className="w-[300px] border-l border-border bg-background p-6">
+                        <div className="flex flex-col gap-6 pt-4">
+                            <div className="flex items-center space-x-2.5">
+                                <div className="h-8 w-8 rounded-lg bg-brand-900 text-brand-100 flex items-center justify-center">
+                                    <Layers className="h-4 w-4" />
+                                </div>
+                                <span className="font-bold text-foreground text-base">Brightloop</span>
+                            </div>
+
+                            <nav className="flex flex-col gap-3 text-sm font-medium">
+                                <Link
+                                    href="#features"
+                                    className="py-2 text-foreground/80 hover:text-brand-700 transition-colors"
+                                    onClick={() => setIsOpen(false)}
+                                >
                                     Features
                                 </Link>
-                                <Link href="/pricing" className="text-lg font-medium hover:text-primary transition-colors" onClick={() => setIsOpen(false)}>
+                                <Link
+                                    href="/pricing"
+                                    className="py-2 text-foreground/80 hover:text-brand-700 transition-colors"
+                                    onClick={() => setIsOpen(false)}
+                                >
                                     Pricing
                                 </Link>
-                            </div>
-                            <div className="h-px bg-border" />
-                            <div className="flex flex-col gap-3">
+                            </nav>
+
+                            <div className="h-px bg-border my-2" />
+
+                            <div className="flex flex-col gap-2.5">
                                 <Link href="/auth/login" onClick={() => setIsOpen(false)}>
-                                    <Button variant="ghost" className="w-full justify-start text-lg">Log In</Button>
+                                    <Button variant="outline" className="w-full justify-center">
+                                        Log In
+                                    </Button>
                                 </Link>
-                                <Link href="/auth/signup" onClick={() => setIsOpen(false)}>
-                                    <Button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 transition-all shadow-md">Get Started</Button>
+                                <Link href="/pricing" onClick={() => setIsOpen(false)}>
+                                    <Button className="w-full justify-center bg-brand-700 hover:bg-brand-800 text-white">
+                                        Get Started
+                                    </Button>
                                 </Link>
                             </div>
                         </div>

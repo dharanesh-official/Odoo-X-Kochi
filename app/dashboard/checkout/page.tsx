@@ -2,7 +2,7 @@
 import { createClient } from "@/utils/supabase/server"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Loader2 } from "lucide-react"
+import { Loader2, Tag } from "lucide-react"
 
 import { redirect } from "next/navigation"
 import { StripeCheckoutButton } from "./stripe-checkout-button"
@@ -82,9 +82,9 @@ export default async function CheckoutPage({
                     </div>
 
                     {plan.discounts && plan.discounts.active && plan.discounts.description && (
-                        <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
-                            <p className="text-sm font-medium text-green-800 flex items-center gap-2">
-                                <span className="text-lg">🎉</span>
+                        <div className="p-3 bg-brand-100/60 border border-brand-400/40 rounded-lg">
+                            <p className="text-xs font-semibold text-brand-900 flex items-center gap-2">
+                                <Tag className="h-4 w-4 text-brand-700" />
                                 {plan.discounts.description}
                             </p>
                         </div>

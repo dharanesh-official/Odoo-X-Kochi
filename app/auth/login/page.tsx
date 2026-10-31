@@ -1,27 +1,35 @@
-
 import LoginForm from "./login-form"
 import { Suspense } from "react"
 import { Card, CardContent } from "@/components/ui/card"
+import Link from "next/link"
+import { Layers } from "lucide-react"
 
 export default function LoginPage() {
     return (
-        <div className="flex min-h-screen items-center justify-center bg-background relative overflow-hidden">
-            {/* Animated Background */}
-            <div className="absolute inset-0 z-0">
-                <div className="absolute top-0 -left-4 w-96 h-96 bg-purple-500/30 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob" />
-                <div className="absolute top-0 -right-4 w-96 h-96 bg-yellow-500/30 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000" />
-                <div className="absolute -bottom-8 left-20 w-96 h-96 bg-pink-500/30 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000" />
-            </div>
+        <div className="flex min-h-screen flex-col items-center justify-center bg-background px-4 py-12 relative overflow-hidden">
+            {/* Subtle brand radial glow */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_70%_at_50%_-10%,rgba(218,241,222,0.5),rgba(255,255,255,0))] pointer-events-none" />
 
-            <Suspense fallback={
-                <Card className="w-full max-w-sm z-10 relative">
-                    <CardContent className="p-8 text-center text-muted-foreground">
-                        Loading login form...
-                    </CardContent>
-                </Card>
-            }>
-                <LoginForm />
-            </Suspense>
+            <div className="w-full max-w-sm space-y-6 relative z-10">
+                <div className="text-center">
+                    <Link href="/" className="inline-flex items-center gap-2 mb-2 group">
+                        <div className="h-9 w-9 rounded-lg bg-brand-900 text-brand-100 flex items-center justify-center shadow-xs transition-colors group-hover:bg-brand-800">
+                            <Layers className="h-5 w-5" />
+                        </div>
+                        <span className="font-extrabold text-xl tracking-tight text-brand-950">Brightloop</span>
+                    </Link>
+                </div>
+
+                <Suspense fallback={
+                    <Card className="w-full border border-border shadow-xs">
+                        <CardContent className="p-8 text-center text-muted-foreground text-sm">
+                            Loading login portal...
+                        </CardContent>
+                    </Card>
+                }>
+                    <LoginForm />
+                </Suspense>
+            </div>
         </div>
     )
 }

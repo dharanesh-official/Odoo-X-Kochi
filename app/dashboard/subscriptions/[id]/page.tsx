@@ -3,7 +3,7 @@ import { notFound } from "next/navigation"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { ArrowLeft, CheckCircle2, Clock, XCircle } from "lucide-react"
+import { ArrowLeft, ArrowRight, CheckCircle2, Clock, XCircle } from "lucide-react"
 import CancelSubscriptionButton from "./cancel-button"
 
 export default async function SubscriptionDetailsPage({
@@ -123,14 +123,15 @@ export default async function SubscriptionDetailsPage({
                                 )}
 
                                 {(subscription.status === 'trialing' || subscription.plans?.name.toLowerCase().includes('trial')) && (
-                                    <div className="flex flex-col gap-2 mt-4 pt-4 border-t border-dashed">
-                                        <div className="flex items-center gap-2 text-yellow-600">
-                                            <Clock className="h-4 w-4" />
-                                            <p className="text-sm font-medium">Enjoying the trial? Upgrade now!</p>
+                                    <div className="flex flex-col gap-2 mt-4 pt-4 border-t border-border">
+                                        <div className="flex items-center gap-2 text-brand-800">
+                                            <Clock className="h-4 w-4 text-brand-700" />
+                                            <p className="text-sm font-medium">Trial period active. Upgrade to ensure continuous service.</p>
                                         </div>
                                         <Link href="/pricing?upgrade=true">
-                                            <Button className="w-full sm:w-auto bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white border-0">
-                                                Upgrade to Pro Plan 🚀
+                                            <Button className="w-full sm:w-auto bg-brand-700 hover:bg-brand-800 text-white font-semibold shadow-xs">
+                                                <span>Upgrade Plan Tier</span>
+                                                <ArrowRight className="h-4 w-4 ml-2" />
                                             </Button>
                                         </Link>
                                     </div>

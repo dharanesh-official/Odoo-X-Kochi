@@ -60,16 +60,16 @@ export default function SignupForm() {
 
     return (
         <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.4 }}
             className="relative z-10 w-full max-w-sm"
         >
-            <Card className="border-0 shadow-2xl bg-background/80 backdrop-blur-xl">
-                <CardHeader className="space-y-1">
-                    <CardTitle className="text-2xl font-bold text-center tracking-tight">Create an account</CardTitle>
-                    <CardDescription className="text-center">
-                        Enter your email below to start up for your free trial.
+            <Card className="border border-border/90 shadow-sm bg-card rounded-xl">
+                <CardHeader className="space-y-1 pb-4">
+                    <CardTitle className="text-xl font-bold text-center tracking-tight text-brand-950">Create an Account</CardTitle>
+                    <CardDescription className="text-center text-xs">
+                        Start your seamless subscription journey.
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -122,10 +122,10 @@ export default function SignupForm() {
                         </div>
                         <Button
                             type="submit"
-                            className="w-full font-bold shadow-lg shadow-primary/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                            className="w-full font-semibold bg-brand-700 hover:bg-brand-800 text-white shadow-xs transition-all"
                             disabled={(!isPasswordValid && password.length > 0) || loading}
                         >
-                            {loading ? 'Creating account...' : 'Create account'}
+                            {loading ? 'Creating account...' : 'Create Account'}
                         </Button>
                     </form>
 

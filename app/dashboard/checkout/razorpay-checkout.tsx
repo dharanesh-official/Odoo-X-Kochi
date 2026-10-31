@@ -48,7 +48,7 @@ export function RazorpayCheckout({ planId, planAmount, userEmail, userName }: Ra
         }
 
         try {
-            // 🚨 DEMO MODE: IF RAZORPAY KEYS ARE MISSING, USE DEMO MODE
+            // DEMO MODE: IF RAZORPAY KEYS ARE MISSING, USE SIMULATED CHECKOUT
             // Or un-comment below to force demo mode for presentation
             const FORCE_DEMO_MODE = true
 
