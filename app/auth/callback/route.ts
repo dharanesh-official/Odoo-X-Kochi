@@ -18,13 +18,8 @@ export async function GET(request: NextRequest) {
             if (flow === 'signup' || flow === 'google-signup') {
                 const { data: { user } } = await supabase.auth.getUser()
                 if (user?.email) {
-                    const createdAt = new Date(user.created_at).getTime()
-                    const now = new Date().getTime()
-                    // If created within last 2 minutes
-                    if (now - createdAt < 120000) {
-                        const name = user.user_metadata?.full_name || 'Friend'
-                        sendWelcomeEmail(user.email, name).catch(e => console.error("Welcome Email Error:", e))
-                    }
+                    const name = user.user_metadata?.full_name || 'Friend'
+                    sendWelcomeEmail(user.email, name).catch(e => console.error("Welcome Email Error:", e))
                 }
             }
 

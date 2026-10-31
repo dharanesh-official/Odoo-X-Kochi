@@ -4,8 +4,20 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
+import { createClient as createSupabaseAdminClient } from '@supabase/supabase-js'
 import { headers } from 'next/headers'
-import { sendWelcomeEmail } from '@/utils/mail'
+import { sendWelcomeEmail, sendConfirmationEmail, sendPasswordResetEmail } from '@/lib/email'
+
+function getAdminClient() {
+    if (process.env.SUPABASE_SERVICE_ROLE_KEY && process.env.NEXT_PUBLIC_SUPABASE_URL) {
+        return createSupabaseAdminClient(
+            process.env.NEXT_PUBLIC_SUPABASE_URL,
+            process.env.SUPABASE_SERVICE_ROLE_KEY,
+            { auth: { autoRefreshToken: false, persistSession: false } }
+        )
+    }
+    return null
+}
 
 // Basic login redirection
 export async function login(formData: FormData) {
@@ -120,6 +132,51 @@ export async function signup(formData: FormData) {
 
     const fullName = `${firstName} ${lastName}`.trim()
 
+    // 1. Try sending verification via Gmail SMTP using Supabase Admin link generator
+    const supabaseAdmin = getAdminClient()
+    if (supabaseAdmin) {
+        const { data: linkData, error: linkError } = await supabaseAdmin.auth.admin.generateLink({
+            type: 'signup',
+            email,
+            password,
+            options: {
+                data: {
+                    full_name: fullName,
+                    role: 'customer'
+                },
+                redirectTo: `${origin}/auth/callback?flow=signup`
+            }
+        })
+
+        if (linkError) {
+            console.error("Admin Signup Error:", linkError.message)
+            return redirect(`/auth/signup?error=${encodeURIComponent(linkError.message)}`)
+        }
+
+        const confirmationUrl = linkData?.properties?.action_link
+        if (confirmationUrl) {
+            await sendConfirmationEmail({
+                email,
+                name: fullName,
+                confirmationUrl
+            })
+        }
+
+        // Auto-create customer record
+        try {
+            await supabaseAdmin.from('customers').insert({
+                name: fullName,
+                email: email,
+            })
+        } catch {
+            // Ignore if already created or trigger handles it
+        }
+
+        revalidatePath('/', 'layout')
+        return redirect('/auth/verify-email')
+    }
+
+    // 2. Fallback to client signup if admin key is not available
     const { data, error } = await supabase.auth.signUp({
         email,
         password,
@@ -150,7 +207,6 @@ export async function signup(formData: FormData) {
 
         if (customerError) {
             console.error("Auto Customer Creation Error:", customerError)
-            // We don't block here, the user can fix it later or we retry
         }
 
         sendWelcomeEmail(email, fullName).catch(e => console.error(e))
@@ -204,6 +260,32 @@ export async function forgotPassword(formData: FormData) {
     origin = origin.includes('http') ? origin : `https://${origin}`
     origin = origin.endsWith('/') ? origin.slice(0, -1) : origin
 
+    // 1. Try sending password reset via Gmail SMTP using Admin link generator
+    const supabaseAdmin = getAdminClient()
+    if (supabaseAdmin) {
+        const { data: linkData, error: linkError } = await supabaseAdmin.auth.admin.generateLink({
+            type: 'recovery',
+            email,
+            options: {
+                redirectTo: `${origin}/auth/callback?next=/auth/update-password`
+            }
+        })
+
+        if (!linkError && linkData?.properties?.action_link) {
+            const userName = linkData.user?.user_metadata?.full_name || 'Valued User'
+            await sendPasswordResetEmail({
+                email,
+                name: userName,
+                resetUrl: linkData.properties.action_link
+            })
+        } else if (linkError) {
+            console.warn("Password reset link generation notice:", linkError.message)
+        }
+
+        return redirect('/auth/forgot-password?message=Check your email for the reset link')
+    }
+
+    // 2. Fallback to client reset request if admin key is not available
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: `${origin}/auth/callback?next=/auth/update-password`,
     })
