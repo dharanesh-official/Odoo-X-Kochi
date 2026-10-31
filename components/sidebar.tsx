@@ -20,7 +20,9 @@ import {
     Tag,
     BarChart3,
     Landmark,
-    Receipt
+    Receipt,
+    ShieldCheck,
+    User
 } from "lucide-react"
 import { createClient } from "@/utils/supabase/server"
 import { NotificationButton } from "@/components/notification-button"
@@ -150,6 +152,13 @@ export default async function Sidebar({ role, className }: SidebarProps) {
                                     Reports
                                 </Link>
                                 <Link
+                                    href="/admin/audit-logs"
+                                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+                                >
+                                    <ShieldCheck className="h-4 w-4" />
+                                    Audit Logs
+                                </Link>
+                                <Link
                                     href="/admin/settings"
                                     className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
                                 >
@@ -191,6 +200,13 @@ export default async function Sidebar({ role, className }: SidebarProps) {
                                 >
                                     <Wallet className="h-4 w-4" />
                                     Invoices
+                                </Link>
+                                <Link
+                                    href="/dashboard/profile"
+                                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+                                >
+                                    <User className="h-4 w-4" />
+                                    My Profile
                                 </Link>
                             </>
                         )}

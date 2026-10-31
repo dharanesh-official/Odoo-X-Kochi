@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/table"
 import { formatCurrency } from "@/lib/utils"
 import { BarChart3, TrendingUp, Users, AlertCircle } from "lucide-react"
+import { ExportCsvButton } from "./export-csv-button"
 
 export const dynamic = 'force-dynamic'
 
@@ -48,9 +49,25 @@ export default async function ReportsPage() {
         .sort(([, a], [, b]) => b.total - a.total)
         .slice(0, 5)
 
+    const reportData = {
+        summary: {
+            totalRevenue,
+            pendingRevenue,
+            activeSubs,
+            overdueInvoices,
+        },
+        topCustomers: sortedCustomers.map(([, data]) => ({
+            name: data.name,
+            total: data.total,
+        })),
+    }
+
     return (
         <div className="space-y-6">
-            <h1 className="text-3xl font-bold tracking-tight">Financial & Ops Reports</h1>
+            <div className="flex justify-between items-center">
+                <h1 className="text-3xl font-bold tracking-tight">Financial & Ops Reports</h1>
+                <ExportCsvButton data={reportData} />
+            </div>
 
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                 <Card className="bg-emerald-50 border-emerald-100">

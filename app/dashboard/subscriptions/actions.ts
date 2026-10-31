@@ -53,5 +53,18 @@ export async function cancelCustomerSubscription(subscriptionId: string) {
     revalidatePath('/dashboard/subscriptions')
     revalidatePath('/admin/subscriptions')
 
+    try {
+        const { logAuditEvent } = await import('@/lib/audit')
+        await logAuditEvent({
+            entityType: 'subscription',
+            entityId: subscriptionId,
+            action: 'cancelled_by_customer',
+            performedBy: user.email,
+            details: { previous_status: subscription.status }
+        })
+    } catch (e) {
+        // Safe fallback
+    }
+
     return { success: true }
 }

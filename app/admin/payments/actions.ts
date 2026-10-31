@@ -78,6 +78,23 @@ export async function createPayment(formData: FormData) {
         revalidatePath(`/dashboard/invoices/${invoiceId}`)
     }
 
+    try {
+        const { logAuditEvent } = await import('@/lib/audit')
+        await logAuditEvent({
+            entityType: 'payment',
+            entityId: invoiceId || null,
+            action: 'payment_recorded',
+            details: {
+                invoice_id: invoiceId,
+                amount,
+                payment_method: method,
+                transaction_id: transactionId
+            }
+        })
+    } catch (e) {
+        // Safe fallback
+    }
+
     revalidatePath('/admin/payments')
     revalidatePath('/admin/invoices')
     return { success: true }

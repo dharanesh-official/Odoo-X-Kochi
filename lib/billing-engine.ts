@@ -1,6 +1,7 @@
 import { createClient } from "@supabase/supabase-js"
 import { advanceSubscriptionPeriod } from "./financial"
 import { sendInvoiceEmail } from "./email"
+import { logAuditEvent } from "./audit"
 
 export interface BillingRunResult {
     runId: string
@@ -238,6 +239,19 @@ export async function executeBillingRun(): Promise<BillingRunResult> {
                     total: totalAmount,
                 }).catch((e) => console.warn('Email delivery skipped:', e))
             }
+
+            await logAuditEvent({
+                entityType: 'billing',
+                entityId: sub.id,
+                action: 'recurring_invoice_generated',
+                performedBy: 'system/billing-engine',
+                details: {
+                    subscription_id: sub.id,
+                    invoice_id: invoice.id,
+                    amount: totalAmount,
+                    period_end: newPeriodEnd.toISOString(),
+                },
+            })
 
             result.invoicesGenerated++
             result.details.push({
