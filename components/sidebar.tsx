@@ -1,6 +1,4 @@
-
 import Link from "next/link"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { logout } from "@/app/auth/actions"
 import {
@@ -8,7 +6,6 @@ import {
     Package,
     ShoppingCart,
     Users,
-
     Settings,
     Wallet,
     LogOut,
@@ -19,15 +16,13 @@ import {
     Percent,
     Tag,
     BarChart3,
-    Landmark,
     Receipt,
     ShieldCheck,
     User
 } from "lucide-react"
 import { createClient } from "@/utils/supabase/server"
-import { NotificationButton } from "@/components/notification-button"
-
 import { cn } from "@/lib/utils"
+import { SidebarItem } from "./sidebar-item"
 
 interface SidebarProps {
     role: 'admin' | 'customer'
@@ -37,11 +32,15 @@ interface SidebarProps {
 export default async function Sidebar({ role, className }: SidebarProps) {
     const supabase = await createClient()
     let subCount = 0
+    let userEmail: string | null = null
+    let userName: string | null = null
 
-    if (role === 'customer') {
-        const { data: { user } } = await supabase.auth.getUser()
-        if (user?.email) {
-            const { data: customer } = await supabase.from('customers').select('id').eq('email', user.email).single()
+    const { data: { user } } = await supabase.auth.getUser()
+    if (user?.email) {
+        userEmail = user.email
+        userName = user.user_metadata?.full_name || user.email.split('@')[0]
+        if (role === 'customer') {
+            const { data: customer } = await supabase.from('customers').select('id').eq('email', user.email).maybeSingle()
             if (customer) {
                 const { count } = await supabase
                     .from('subscriptions')
@@ -54,172 +53,131 @@ export default async function Sidebar({ role, className }: SidebarProps) {
     }
 
     return (
-        <div className={cn("hidden border-r bg-muted/40 md:block w-[220px] lg:w-[280px]", className)}>
+        <aside className={cn("hidden border-r bg-card/60 backdrop-blur-xs md:flex md:flex-col w-[230px] lg:w-[260px]", className)}>
             <div className="flex h-full max-h-screen flex-col gap-2">
-                <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
-                    <Link href="/" className="flex items-center gap-2 font-semibold">
-                        <Zap className="h-6 w-6" />
-                        <span className="">SubCheck</span>
+                {/* Brand Header */}
+                <div className="flex h-16 items-center border-b px-5 lg:px-6">
+                    <Link href="/" className="flex items-center gap-2.5 font-bold text-base tracking-tight group">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-600 text-white shadow-sm transition-transform duration-200 group-hover:scale-105">
+                            <Zap className="h-4 w-4 fill-white" />
+                        </div>
+                        <div className="flex flex-col">
+                            <span className="font-extrabold text-foreground tracking-tight leading-none">SubCheck</span>
+                            <span className="text-[10px] text-muted-foreground uppercase font-semibold tracking-wider mt-0.5">
+                                {role === 'admin' ? 'Admin Portal' : 'Customer Hub'}
+                            </span>
+                        </div>
                     </Link>
-                    <NotificationButton />
                 </div>
-                <div className="flex-1">
-                    <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
+
+                {/* Navigation Links */}
+                <div className="flex-1 overflow-y-auto px-3 py-3">
+                    <nav className="space-y-4">
                         {role === 'admin' ? (
                             <>
-                                <Link
-                                    href="/admin/dashboard"
-                                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-                                >
-                                    <Home className="h-4 w-4" />
-                                    Dashboard
-                                </Link>
-                                <Link
-                                    href="/admin/subscriptions"
-                                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-                                >
-                                    <ShoppingCart className="h-4 w-4" />
-                                    Subscriptions
-                                </Link>
-                                <Link
-                                    href="/admin/products"
-                                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-                                >
-                                    <Package className="h-4 w-4" />
-                                    Products
-                                </Link>
-                                <Link
-                                    href="/admin/plans"
-                                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-                                >
-                                    <Briefcase className="h-4 w-4" />
-                                    Plans
-                                </Link>
-                                <Link
-                                    href="/admin/customers"
-                                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-                                >
-                                    <Users className="h-4 w-4" />
-                                    Customers
-                                </Link>
-                                <Link
-                                    href="/admin/payments"
-                                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-                                >
-                                    <IndianRupee className="h-4 w-4" />
-                                    Payments
-                                </Link>
-                                <Link
-                                    href="/admin/users"
-                                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-                                >
-                                    <Users className="h-4 w-4" />
-                                    Internal Users
-                                </Link>
-                                <Link
-                                    href="/admin/quotations"
-                                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-                                >
-                                    <FileText className="h-4 w-4" />
-                                    Quotations
-                                </Link>
-                                <Link
-                                    href="/admin/invoices"
-                                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-                                >
-                                    <Receipt className="h-4 w-4" />
-                                    Invoices
-                                </Link>
-                                <Link
-                                    href="/admin/taxes"
-                                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-                                >
-                                    <Percent className="h-4 w-4" />
-                                    Taxes
-                                </Link>
-                                <Link
-                                    href="/admin/discounts"
-                                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-                                >
-                                    <Tag className="h-4 w-4" />
-                                    Discounts
-                                </Link>
-                                <Link
-                                    href="/admin/reports"
-                                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-                                >
-                                    <BarChart3 className="h-4 w-4" />
-                                    Reports
-                                </Link>
-                                <Link
-                                    href="/admin/audit-logs"
-                                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-                                >
-                                    <ShieldCheck className="h-4 w-4" />
-                                    Audit Logs
-                                </Link>
-                                <Link
-                                    href="/admin/settings"
-                                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-                                >
-                                    <Settings className="h-4 w-4" />
-                                    Settings
-                                </Link>
+                                <div>
+                                    <div className="px-3 pb-1.5 text-[11px] font-semibold tracking-wider text-muted-foreground/70 uppercase">
+                                        Core Operations
+                                    </div>
+                                    <div className="space-y-1">
+                                        <SidebarItem href="/admin/dashboard" icon={Home} title="Dashboard" />
+                                        <SidebarItem href="/admin/subscriptions" icon={ShoppingCart} title="Subscriptions" />
+                                        <SidebarItem href="/admin/invoices" icon={Receipt} title="Invoices" />
+                                        <SidebarItem href="/admin/payments" icon={IndianRupee} title="Payments" />
+                                        <SidebarItem href="/admin/quotations" icon={FileText} title="Quotations" />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div className="px-3 pb-1.5 text-[11px] font-semibold tracking-wider text-muted-foreground/70 uppercase">
+                                        Catalog & Pricing
+                                    </div>
+                                    <div className="space-y-1">
+                                        <SidebarItem href="/admin/products" icon={Package} title="Products" />
+                                        <SidebarItem href="/admin/plans" icon={Briefcase} title="Plans" />
+                                        <SidebarItem href="/admin/discounts" icon={Tag} title="Discounts" />
+                                        <SidebarItem href="/admin/taxes" icon={Percent} title="Taxes" />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div className="px-3 pb-1.5 text-[11px] font-semibold tracking-wider text-muted-foreground/70 uppercase">
+                                        Users & Analytics
+                                    </div>
+                                    <div className="space-y-1">
+                                        <SidebarItem href="/admin/customers" icon={Users} title="Customers" />
+                                        <SidebarItem href="/admin/users" icon={Users} title="Internal Staff" />
+                                        <SidebarItem href="/admin/reports" icon={BarChart3} title="Reports" />
+                                        <SidebarItem href="/admin/audit-logs" icon={ShieldCheck} title="Audit Logs" />
+                                        <SidebarItem href="/admin/settings" icon={Settings} title="Settings" />
+                                    </div>
+                                </div>
                             </>
                         ) : (
                             <>
-                                <Link
-                                    href="/dashboard"
-                                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-                                >
-                                    <Home className="h-4 w-4" />
-                                    Overview
-                                </Link>
-                                <Link
-                                    href="/dashboard/subscriptions"
-                                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-                                >
-                                    <ShoppingCart className="h-4 w-4" />
-                                    My Subscriptions
-                                    {subCount > 0 && (
-                                        <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                                            {subCount}
-                                        </Badge>
-                                    )}
-                                </Link>
-                                <Link
-                                    href="/dashboard/payments"
-                                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-                                >
-                                    <Landmark className="h-4 w-4" />
-                                    Payments
-                                </Link>
-                                <Link
-                                    href="/dashboard/invoices"
-                                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-                                >
-                                    <Wallet className="h-4 w-4" />
-                                    Invoices
-                                </Link>
-                                <Link
-                                    href="/dashboard/profile"
-                                    className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-                                >
-                                    <User className="h-4 w-4" />
-                                    My Profile
-                                </Link>
+                                <div>
+                                    <div className="px-3 pb-1.5 text-[11px] font-semibold tracking-wider text-muted-foreground/70 uppercase">
+                                        Overview
+                                    </div>
+                                    <div className="space-y-1">
+                                        <SidebarItem href="/dashboard" icon={Home} title="Overview" />
+                                        <SidebarItem
+                                            href="/dashboard/subscriptions"
+                                            icon={ShoppingCart}
+                                            title="My Subscriptions"
+                                            badge={subCount > 0 ? subCount : null}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div className="px-3 pb-1.5 text-[11px] font-semibold tracking-wider text-muted-foreground/70 uppercase">
+                                        Financial Records
+                                    </div>
+                                    <div className="space-y-1">
+                                        <SidebarItem href="/dashboard/invoices" icon={Receipt} title="Invoices" />
+                                        <SidebarItem href="/dashboard/payments" icon={Wallet} title="Payments" />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div className="px-3 pb-1.5 text-[11px] font-semibold tracking-wider text-muted-foreground/70 uppercase">
+                                        Account
+                                    </div>
+                                    <div className="space-y-1">
+                                        <SidebarItem href="/dashboard/profile" icon={User} title="My Profile" />
+                                    </div>
+                                </div>
                             </>
                         )}
                     </nav>
                 </div>
-                <div className="mt-auto p-4 border-t">
-                    <form action={logout}>
-                        <Button variant="secondary" className="w-full justify-start gap-2">
-                            <LogOut className="h-4 w-4" /> Logout
-                        </Button>
-                    </form>
+
+                {/* User Info & Logout Footer */}
+                <div className="mt-auto border-t p-3 bg-muted/20">
+                    <div className="flex items-center justify-between rounded-lg p-2 hover:bg-muted/50 transition-colors">
+                        <div className="flex items-center gap-2.5 overflow-hidden">
+                            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary font-bold text-xs">
+                                {userName?.[0]?.toUpperCase() || 'U'}
+                            </div>
+                            <div className="flex flex-col overflow-hidden text-left">
+                                <span className="truncate text-xs font-semibold text-foreground leading-tight">{userName || 'Account'}</span>
+                                <span className="truncate text-[10px] text-muted-foreground leading-tight">{userEmail}</span>
+                            </div>
+                        </div>
+                        <form action={logout}>
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-7 w-7 text-muted-foreground hover:text-rose-600 hover:bg-rose-50"
+                                title="Sign out"
+                            >
+                                <LogOut className="h-3.5 w-3.5" />
+                            </Button>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        </aside>
     )
 }

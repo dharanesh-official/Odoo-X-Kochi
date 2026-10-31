@@ -3,6 +3,7 @@ import Sidebar from "@/components/sidebar"
 import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation"
 import { AdminMobileHeader } from "@/components/admin-mobile-header"
+import { DashboardHeader } from "@/components/dashboard-header"
 
 export const dynamic = 'force-dynamic'
 
@@ -22,13 +23,14 @@ export default async function AdminLayout({
     }
 
     return (
-        <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
+        <div className="grid min-h-screen w-full md:grid-cols-[230px_1fr] lg:grid-cols-[260px_1fr] bg-slate-50/50">
             <Sidebar role="admin" />
-            <div className="flex flex-col">
+            <div className="flex flex-col min-w-0">
                 <AdminMobileHeader>
                     <Sidebar role="admin" className="block w-full border-none" />
                 </AdminMobileHeader>
-                <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+                <DashboardHeader user={user} role="admin" />
+                <main className="flex-1 p-4 lg:p-8 max-w-7xl w-full mx-auto animate-in fade-in-50 duration-200">
                     {children}
                 </main>
             </div>

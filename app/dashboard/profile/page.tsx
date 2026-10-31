@@ -5,6 +5,8 @@ import ProfileForm from "./profile-form"
 import { User, ShoppingCart, Receipt, Landmark } from "lucide-react"
 import { formatCurrency } from "@/lib/utils"
 
+import { getOrCreateCustomer } from "@/lib/customer-profile"
+
 export const dynamic = 'force-dynamic'
 
 export default async function CustomerProfilePage() {
@@ -15,11 +17,7 @@ export default async function CustomerProfilePage() {
         redirect('/auth/login')
     }
 
-    const { data: customer } = await supabase
-        .from('customers')
-        .select('*')
-        .eq('email', user.email)
-        .single()
+    const customer = await getOrCreateCustomer(supabase, user)
 
     if (!customer) {
         return (

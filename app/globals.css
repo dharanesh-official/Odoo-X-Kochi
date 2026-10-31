@@ -54,7 +54,22 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+  }
+}
+
+@layer utilities {
+  .card-hover {
+    @apply transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-md;
+  }
+  .card-interactive {
+    @apply transition-all duration-200 ease-out hover:border-primary/40 hover:shadow-sm;
+  }
+  .gradient-brand {
+    @apply bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600;
+  }
+  .gradient-subtle {
+    @apply bg-gradient-to-br from-slate-50 via-white to-slate-100/50;
   }
 }
 
