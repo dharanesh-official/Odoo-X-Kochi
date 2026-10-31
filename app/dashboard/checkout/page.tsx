@@ -7,6 +7,7 @@ import { Loader2, Tag } from "lucide-react"
 import { redirect } from "next/navigation"
 import { StripeCheckoutButton } from "./stripe-checkout-button"
 import { createSubscriptionAction } from "./actions"
+import { RazorpayCheckoutButton } from "./razorpay-modal"
 
 export const dynamic = 'force-dynamic'
 
@@ -113,25 +114,20 @@ export default async function CheckoutPage({
                     </div>
                 </CardContent>
                 <CardFooter>
-                    {plan.trial_period_days > 0 ? (
-                        <form action={createSubscriptionAction} className="w-full">
-                            <input type="hidden" name="plan_id" value={plan.id} />
-                            <Button type="submit" className="w-full" size="lg">
-                                Start Free Trial ({plan.trial_period_days} Days)
-                            </Button>
-                        </form>
-                    ) : (
-                        <div className="w-full">
-                            <StripeCheckoutButton
-                                planId={plan.id}
-                                amount={Number((plan.discounts && plan.discounts.active
-                                    ? (plan.discounts.type === 'percentage'
-                                        ? plan.amount * (1 - plan.discounts.value / 100)
-                                        : Math.max(0, plan.amount - plan.discounts.value))
-                                    : plan.amount).toFixed(2))}
-                            />
-                        </div>
-                    )}
+                    <div className="w-full">
+                        <RazorpayCheckoutButton
+                            planId={plan.id}
+                            planName={plan.name}
+                            amount={Number((plan.discounts && plan.discounts.active
+                                ? (plan.discounts.type === 'percentage'
+                                    ? plan.amount * (1 - plan.discounts.value / 100)
+                                    : Math.max(0, plan.amount - plan.discounts.value))
+                                : plan.amount).toFixed(2))}
+                            isTrial={plan.trial_period_days > 0}
+                            trialDays={plan.trial_period_days}
+                            userEmail={user.email}
+                        />
+                    </div>
                 </CardFooter>
             </Card>
         </div>
