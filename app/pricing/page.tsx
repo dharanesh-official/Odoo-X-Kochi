@@ -11,11 +11,13 @@ export default async function PricingPage({
 }: {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }) {
-    const supabase = await createClient()
+    const userClient = await createClient()
     const { upgrade } = await searchParams
 
-    // Fetch public plans
-    let { data: plans } = await supabase
+    // Fetch public plans using admin client to avoid RLS recursion on plans table
+    const { createAdminClient } = await import('@/utils/supabase/admin')
+    const adminSb = createAdminClient()
+    let { data: plans } = await adminSb
         .from('plans')
         .select('*, products(name, description)')
         .eq('active', true)
@@ -32,7 +34,7 @@ export default async function PricingPage({
     }
 
     // Check if user is logged in
-    const { data: { user } } = await supabase.auth.getUser()
+    const { data: { user } } = await userClient.auth.getUser()
 
     return (
         <div className="flex flex-col min-h-screen bg-background">

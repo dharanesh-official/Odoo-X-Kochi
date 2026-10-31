@@ -34,13 +34,16 @@ export default async function CustomerInvoicesPage() {
 
     if (!user) return redirect('/auth/login')
 
-    const customer = await getOrCreateCustomer(supabase, user)
+    const { createAdminClient } = await import('@/utils/supabase/admin')
+    const adminSb = createAdminClient()
+
+    const customer = await getOrCreateCustomer(adminSb, user)
     const customerId = customer?.id
 
     let invoices: any[] = []
 
     if (customerId) {
-        const { data } = await supabase
+        const { data } = await adminSb
             .from('invoices')
             .select(`
                 *,

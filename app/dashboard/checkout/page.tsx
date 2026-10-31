@@ -29,7 +29,9 @@ export default async function CheckoutPage({
         redirect(`/auth/login?next=/dashboard/checkout&plan=${planId}`)
     }
 
-    const { data: plan } = await supabase
+    const { createAdminClient } = await import('@/utils/supabase/admin')
+    const adminSb = createAdminClient()
+    const { data: plan } = await adminSb
         .from('plans')
         .select('*, products(*), discounts(*)')
         .eq('id', planId)

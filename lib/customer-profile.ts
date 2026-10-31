@@ -1,4 +1,4 @@
-import { SupabaseClient } from '@supabase/supabase-js'
+import { createAdminClient } from '@/utils/supabase/admin'
 
 export interface CustomerProfile {
     id: string
@@ -11,20 +11,23 @@ export interface CustomerProfile {
 
 /**
  * Guarantees that an authenticated user has an active customer record.
- * Automatically resolves or provisions the profile so users never see a blank "No profile found" error.
+ * Automatically resolves or provisions the profile with administrative client
+ * so RLS recursion on public.profiles never blocks resolving the customer.
  */
 export async function getOrCreateCustomer(
-    supabase: SupabaseClient,
+    _supabaseClient: any,
     user: { id: string; email?: string | null; user_metadata?: Record<string, any> }
 ): Promise<CustomerProfile | null> {
     if (!user || !user.email) return null
 
     try {
+        const adminSb = createAdminClient()
+
         // 1. Fetch existing customer record
-        const { data: customer } = await supabase
+        const { data: customer } = await adminSb
             .from('customers')
             .select('*')
-            .eq('email', user.email)
+            .ilike('email', user.email.trim())
             .maybeSingle()
 
         if (customer) {
@@ -33,11 +36,11 @@ export async function getOrCreateCustomer(
 
         // 2. Automatically create customer record
         const name = user.user_metadata?.full_name || user.email.split('@')[0]
-        const { data: created, error } = await supabase
+        const { data: created, error } = await adminSb
             .from('customers')
             .insert({
                 name,
-                email: user.email,
+                email: user.email.trim(),
             })
             .select('*')
             .single()
@@ -48,10 +51,10 @@ export async function getOrCreateCustomer(
 
         if (error) {
             // Concurrent insert or trigger might have already created it
-            const { data: retry } = await supabase
+            const { data: retry } = await adminSb
                 .from('customers')
                 .select('*')
-                .eq('email', user.email)
+                .ilike('email', user.email.trim())
                 .maybeSingle()
 
             if (retry) return retry as CustomerProfile

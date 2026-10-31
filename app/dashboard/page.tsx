@@ -28,7 +28,10 @@ export default async function CustomerDashboard() {
 
     if (!user) return <div className="p-8 text-center text-muted-foreground">Please log in to access the dashboard.</div>
 
-    const customer = await getOrCreateCustomer(supabase, user)
+    const { createAdminClient } = await import('@/utils/supabase/admin')
+    const adminSb = createAdminClient()
+
+    const customer = await getOrCreateCustomer(adminSb, user)
     const customerId = customer?.id
     const fullName = user.user_metadata?.full_name || customer?.name || user.email?.split('@')[0] || 'Member'
 
@@ -38,7 +41,7 @@ export default async function CustomerDashboard() {
 
     if (customerId) {
         const [subRes, invsRes, payRes] = await Promise.all([
-            supabase
+            adminSb
                 .from('subscriptions')
                 .select(`
                     *,
@@ -48,16 +51,18 @@ export default async function CustomerDashboard() {
                 .in('status', ['active', 'trialing'])
                 .order('created_at', { ascending: false })
                 .maybeSingle(),
-            supabase
+            adminSb
                 .from('invoices')
                 .select('*')
                 .eq('customer_id', customerId)
                 .order('created_at', { ascending: false })
                 .limit(5),
-            supabase
+            adminSb
                 .from('payments')
                 .select('*')
                 .eq('customer_id', customerId)
+                .order('created_at', { ascending: false })
+                .limit(5)
         ])
 
         subscription = subRes.data

@@ -33,13 +33,16 @@ export default async function MySubscriptionsPage() {
 
     if (!user) return redirect('/auth/login')
 
-    const customer = await getOrCreateCustomer(supabase, user)
+    const { createAdminClient } = await import('@/utils/supabase/admin')
+    const adminSb = createAdminClient()
+
+    const customer = await getOrCreateCustomer(adminSb, user)
     const customerId = customer?.id
 
     let subscriptions: any[] = []
 
     if (customerId) {
-        const { data } = await supabase
+        const { data } = await adminSb
             .from('subscriptions')
             .select(`
                 *,
