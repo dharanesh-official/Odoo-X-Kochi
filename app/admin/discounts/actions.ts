@@ -2,18 +2,29 @@
 
 import { requireAdmin } from '@/lib/auth'
 import { revalidatePath } from 'next/cache'
+import { createAdminClient } from '@/utils/supabase/admin'
 
 export async function getDiscounts() {
-    const { supabase } = await requireAdmin()
-    const { data } = await supabase
-        .from('discounts')
-        .select('*, products(name)')
-        .order('created_at', { ascending: false })
-    return data || []
+    await requireAdmin()
+    try {
+        const adminSb = createAdminClient()
+        const { data, error } = await adminSb
+            .from('discounts')
+            .select('*, products(name)')
+            .order('created_at', { ascending: false })
+        if (error) {
+            console.error('Error fetching discounts:', error.message)
+            return []
+        }
+        return data || []
+    } catch (err: any) {
+        console.error('getDiscounts error:', err?.message || err)
+        return []
+    }
 }
 
 export async function createDiscount(formData: FormData) {
-    const { supabase } = await requireAdmin()
+    await requireAdmin()
 
     const name = formData.get('name') as string
     const description = formData.get('description') as string
@@ -25,8 +36,8 @@ export async function createDiscount(formData: FormData) {
     const valid_until = formData.get('valid_until') as string
     const product_id = formData.get('product_id') as string
 
-    // Insert without code column for current schema compatibility
-    const { error, data } = await supabase.from('discounts').insert({
+    const adminSb = createAdminClient()
+    const { error } = await adminSb.from('discounts').insert({
         name,
         description: description || null,
         type,
@@ -39,7 +50,7 @@ export async function createDiscount(formData: FormData) {
     }).select()
 
     if (error) {
-        console.error('Create discount error:', error)
+        console.error('Create discount error:', error.message)
         const { redirect } = await import('next/navigation')
         return redirect(`/admin/discounts?error=${encodeURIComponent(error.message)}`)
     }
@@ -50,13 +61,18 @@ export async function createDiscount(formData: FormData) {
 }
 
 export async function toggleDiscountStatus(id: string, active: boolean) {
-    const { supabase } = await requireAdmin()
-    await supabase.from('discounts').update({ active }).eq('id', id)
-    revalidatePath('/admin/discounts')
+    await requireAdmin()
+    try {
+        const adminSb = createAdminClient()
+        await adminSb.from('discounts').update({ active }).eq('id', id)
+        revalidatePath('/admin/discounts')
+    } catch (err: any) {
+        console.error('toggleDiscountStatus error:', err?.message || err)
+    }
 }
 
 export async function updateDiscount(id: string, formData: FormData) {
-    const { supabase } = await requireAdmin()
+    await requireAdmin()
 
     const name = formData.get('name') as string
     const description = formData.get('description') as string
@@ -68,33 +84,45 @@ export async function updateDiscount(id: string, formData: FormData) {
     const valid_until = formData.get('valid_until') as string
     const product_id = formData.get('product_id') as string
 
-    const { error } = await supabase.from('discounts').update({
-        name,
-        description: description || null,
-        type,
-        value,
-        min_amount,
-        active,
-        valid_from: valid_from || null,
-        valid_until: valid_until || null,
-        product_id: (product_id && product_id !== 'all') ? product_id : null
-    }).eq('id', id)
+    try {
+        const adminSb = createAdminClient()
+        const { error } = await adminSb.from('discounts').update({
+            name,
+            description: description || null,
+            type,
+            value,
+            min_amount,
+            active,
+            valid_from: valid_from || null,
+            valid_until: valid_until || null,
+            product_id: (product_id && product_id !== 'all') ? product_id : null
+        }).eq('id', id)
 
-    if (error) return { error: error.message }
+        if (error) return { error: error.message }
 
-    revalidatePath('/admin/discounts')
-    return { success: true }
+        revalidatePath('/admin/discounts')
+        return { success: true }
+    } catch (err: any) {
+        console.error('updateDiscount error:', err?.message || err)
+        return { error: err?.message || 'Failed to update discount' }
+    }
 }
 
 export async function deleteDiscount(id: string) {
-    const { supabase } = await requireAdmin()
-    const { error } = await supabase.from('discounts').delete().eq('id', id)
+    await requireAdmin()
+    try {
+        const adminSb = createAdminClient()
+        const { error } = await adminSb.from('discounts').delete().eq('id', id)
 
-    if (error) {
-        if (error.code === '23503') return { error: 'Discount is linked to plans' }
-        return { error: error.message }
+        if (error) {
+            if (error.code === '23503') return { error: 'Discount is linked to plans' }
+            return { error: error.message }
+        }
+
+        revalidatePath('/admin/discounts')
+        return { success: true }
+    } catch (err: any) {
+        console.error('deleteDiscount error:', err?.message || err)
+        return { error: err?.message || 'Failed to delete discount' }
     }
-
-    revalidatePath('/admin/discounts')
-    return { success: true }
 }
