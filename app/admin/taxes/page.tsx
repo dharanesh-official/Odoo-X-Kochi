@@ -1,4 +1,4 @@
-import { getTaxes } from "./actions"
+import { getTaxes, deleteTax } from "./actions"
 import {
     Table,
     TableBody,
@@ -8,6 +8,8 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import TaxesForm from "./taxes-form"
+import { Button } from "@/components/ui/button"
+import { Trash2 } from "lucide-react"
 
 export const dynamic = 'force-dynamic'
 
@@ -33,12 +35,13 @@ export default async function TaxesPage() {
                                 <TableHead>Tax Name</TableHead>
                                 <TableHead>Rate (%)</TableHead>
                                 <TableHead>Status</TableHead>
+                                <TableHead className="text-right">Actions</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {taxes.length === 0 ? (
                                 <TableRow>
-                                    <TableCell colSpan={3} className="text-center py-12 text-muted-foreground italic">
+                                    <TableCell colSpan={4} className="text-center py-12 text-muted-foreground italic">
                                         No taxes configured. Start by adding one.
                                     </TableCell>
                                 </TableRow>
@@ -51,6 +54,16 @@ export default async function TaxesPage() {
                                             <Badge active={tax.active}>
                                                 {tax.active ? "Active" : "Inactive"}
                                             </Badge>
+                                        </TableCell>
+                                        <TableCell className="text-right">
+                                            <form action={async () => {
+                                                'use server'
+                                                await deleteTax(tax.id)
+                                            }}>
+                                                <Button variant="ghost" size="icon" className="h-8 w-8 text-rose-500 hover:text-rose-700">
+                                                    <Trash2 className="h-4 w-4" />
+                                                </Button>
+                                            </form>
                                         </TableCell>
                                     </TableRow>
                                 ))

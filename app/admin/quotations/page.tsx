@@ -1,5 +1,6 @@
 import { getQuotationTemplates, createQuotationTemplate } from "./actions"
 export const dynamic = 'force-dynamic'
+import { createClient } from "@/utils/supabase/server"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -12,9 +13,14 @@ import {
     TableRow,
 } from "@/components/ui/table"
 import { FileText, Plus, Package } from "lucide-react"
+import { ManageLinesDialog } from "./manage-lines-dialog"
 
 export default async function QuotationsPage() {
-    const templates = await getQuotationTemplates()
+    const supabase = await createClient()
+    const [templates, { data: products }] = await Promise.all([
+        getQuotationTemplates(),
+        supabase.from('products').select('id, name').order('name')
+    ])
 
     return (
         <div className="space-y-6">
@@ -95,7 +101,7 @@ export default async function QuotationsPage() {
                                             </div>
                                         </TableCell>
                                         <TableCell className="text-right align-top">
-                                            <Button variant="outline" size="sm">Manage Lines</Button>
+                                            <ManageLinesDialog template={tmpl} products={products || []} />
                                         </TableCell>
                                     </TableRow>
                                 ))

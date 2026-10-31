@@ -160,7 +160,11 @@ export default async function SubscriptionDetailsPage({
                             {subscription.invoices && subscription.invoices.length > 0 ? (
                                 subscription.invoices.map((inv: any) => (
                                     <tr key={inv.id}>
-                                        <td className="px-6 py-4 font-mono">{inv.id.slice(0, 8)}</td>
+                                        <td className="px-6 py-4 font-mono">
+                                            <Link href={`/dashboard/invoices/${inv.id}`} className="text-primary hover:underline font-semibold">
+                                                #{inv.id.slice(0, 8).toUpperCase()}
+                                            </Link>
+                                        </td>
                                         <td className="px-6 py-4">{new Date(inv.created_at).toLocaleDateString()}</td>
                                         <td className="px-6 py-4">₹{inv.amount_due}</td>
                                         <td className="px-6 py-4">

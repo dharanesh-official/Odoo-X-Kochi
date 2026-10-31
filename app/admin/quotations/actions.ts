@@ -45,3 +45,19 @@ export async function addTemplateLine(templateId: string, productId: string, qua
     revalidatePath('/admin/quotations')
     return { success: true }
 }
+
+export async function deleteTemplateLine(lineId: string) {
+    const { supabase } = await requireAdmin()
+    const { error } = await supabase.from('quotation_template_lines').delete().eq('id', lineId)
+    if (error) return { error: error.message }
+    revalidatePath('/admin/quotations')
+    return { success: true }
+}
+
+export async function deleteQuotationTemplate(templateId: string) {
+    const { supabase } = await requireAdmin()
+    const { error } = await supabase.from('quotation_templates').delete().eq('id', templateId)
+    if (error) return { error: error.message }
+    revalidatePath('/admin/quotations')
+    return { success: true }
+}

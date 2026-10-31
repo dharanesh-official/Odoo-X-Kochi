@@ -36,3 +36,11 @@ export async function toggleTaxStatus(id: string, active: boolean) {
     await supabase.from('taxes').update({ active }).eq('id', id)
     revalidatePath('/admin/taxes')
 }
+
+export async function deleteTax(id: string) {
+    const { supabase } = await requireAdmin()
+    const { error } = await supabase.from('taxes').delete().eq('id', id)
+    if (error) return { error: error.message }
+    revalidatePath('/admin/taxes')
+    return { success: true }
+}
