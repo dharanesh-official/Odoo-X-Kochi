@@ -39,7 +39,7 @@ export async function sendInvoiceEmail(data: InvoiceEmailData) {
     total,
   } = data
 
-  const invoiceUrl = `${process.env.NEXT_PUBLIC_APP_URL}/admin/invoices/${invoiceId}`
+  const invoiceUrl = `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/invoices/${invoiceId}`
 
   const htmlContent = `
 <!DOCTYPE html>

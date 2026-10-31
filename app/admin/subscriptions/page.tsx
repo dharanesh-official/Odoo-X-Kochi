@@ -16,6 +16,7 @@ import { Plus } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { formatCurrency } from "@/lib/utils"
 import { updateSubscriptionStatus } from "./actions"
+import RunBillingButton from "./run-billing-button"
 
 export default async function SubscriptionsPage() {
     const supabase = await createClient()
@@ -51,11 +52,14 @@ export default async function SubscriptionsPage() {
         <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
                 <h1 className="text-2xl font-bold tracking-tight">Subscriptions</h1>
-                <Link href="/admin/subscriptions/new">
-                    <Button>
-                        <Plus className="mr-2 h-4 w-4" /> Create Subscription
-                    </Button>
-                </Link>
+                <div className="flex items-center gap-2">
+                    <RunBillingButton />
+                    <Link href="/admin/subscriptions/new">
+                        <Button>
+                            <Plus className="mr-2 h-4 w-4" /> Create Subscription
+                        </Button>
+                    </Link>
+                </div>
             </div>
             <div className="rounded-md border">
                 <Table>

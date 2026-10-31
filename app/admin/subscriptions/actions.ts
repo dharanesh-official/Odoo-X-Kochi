@@ -265,3 +265,14 @@ export async function updateSubscriptionStatus(id: string, newStatus: string) {
 
     revalidatePath('/admin/subscriptions')
 }
+
+export async function triggerManualBillingRun() {
+    await requireAdmin()
+    const { executeBillingRun } = await import('@/lib/billing-engine')
+    const result = await executeBillingRun()
+    revalidatePath('/admin/subscriptions')
+    revalidatePath('/admin/invoices')
+    revalidatePath('/admin/dashboard')
+    return { success: true, result }
+}
+

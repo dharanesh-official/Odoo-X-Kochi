@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { ArrowLeft, CheckCircle2, Clock, XCircle } from "lucide-react"
+import CancelSubscriptionButton from "./cancel-button"
 
 export default async function SubscriptionDetailsPage({
     params
@@ -114,7 +115,7 @@ export default async function SubscriptionDetailsPage({
                             <h4 className="text-sm font-medium mb-2">Actions</h4>
                             <div className="flex flex-col gap-2">
                                 {subscription.status === 'active' || subscription.status === 'trialing' ? (
-                                    <Button variant="destructive" className="w-full sm:w-auto">Cancel Subscription</Button>
+                                    <CancelSubscriptionButton subscriptionId={subscription.id} />
                                 ) : (
                                     <Link href={`/dashboard/checkout?plan=${subscription.plan_id}`}>
                                         <Button className="w-full sm:w-auto">Renew / Pay Now</Button>
