@@ -26,8 +26,11 @@ export default function CreateProductForm() {
         setLoading(true)
         try {
             await createProduct(formData)
-        } catch (error) {
-            console.error(error)
+        } catch (error: any) {
+            if (error?.message === 'NEXT_REDIRECT' || error?.digest?.startsWith('NEXT_REDIRECT')) {
+                throw error
+            }
+            console.error('Create product failed:', error)
             setLoading(false)
         }
     }
