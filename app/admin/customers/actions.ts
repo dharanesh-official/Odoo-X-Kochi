@@ -22,7 +22,7 @@ export async function createCustomer(formData: FormData) {
     }
 
     // Check if profile exists with this email to link automatically
-    const { data: profile } = await supabase.from('profiles').select('id').eq('email', email).single()
+    const { data: profile } = await supabase.from('profiles').select('id').eq('email', email).maybeSingle()
 
     const { error } = await supabase.from('customers').insert({
         profile_id: profile?.id || null, // Link if found
