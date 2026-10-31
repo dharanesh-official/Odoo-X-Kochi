@@ -144,6 +144,35 @@ export default async function PricingPage({
                     </div>
                 </div>
             </main>
+
+            <footer className="border-t border-border/80 bg-muted/20 py-10 md:py-12">
+                <div className="container max-w-7xl mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div className="flex items-center gap-2.5">
+                        <span className="font-bold text-sm tracking-tight text-foreground">
+                            Brightloop Software
+                        </span>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-6 text-xs font-medium text-muted-foreground">
+                        <Link href="/#features" className="hover:text-foreground transition-colors">
+                            Features
+                        </Link>
+                        <Link href="/pricing" className="hover:text-foreground transition-colors">
+                            Pricing
+                        </Link>
+                        <Link href="/#lifecycle" className="hover:text-foreground transition-colors">
+                            Lifecycle
+                        </Link>
+                        <Link href="/auth/login" className="hover:text-foreground transition-colors">
+                            Customer Portal
+                        </Link>
+                    </div>
+
+                    <p className="text-xs text-muted-foreground">
+                        &copy; {new Date().getFullYear()} Brightloop. Build by <strong>Dharanesh</strong>.
+                    </p>
+                </div>
+            </footer>
         </div>
     )
 }

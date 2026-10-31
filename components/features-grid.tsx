@@ -44,7 +44,7 @@ const capabilities = [
 
 export function FeaturesGrid() {
     return (
-        <section id="features" className="py-20 md:py-28 bg-muted/30">
+        <section id="features" className="py-20 md:py-28 bg-muted/30 scroll-mt-16">
             <div className="container max-w-6xl px-4 md:px-8 mx-auto">
                 {/* Section Header */}
                 <div className="max-w-2xl mx-auto text-center space-y-3 mb-16">

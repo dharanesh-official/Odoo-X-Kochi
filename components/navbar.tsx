@@ -31,24 +31,33 @@ export function Navbar() {
                         </div>
                     </Link>
 
-                    {/* Desktop Navigation */}
+                    {/* Desktop Navigation Links */}
                     <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
-                        <Link className="text-muted-foreground transition-colors hover:text-foreground" href="#features">
+                        <Link
+                            className="text-muted-foreground transition-colors hover:text-foreground cursor-pointer"
+                            href="/#features"
+                        >
                             Features
                         </Link>
-                        <Link className="text-muted-foreground transition-colors hover:text-foreground" href="/pricing">
+                        <Link
+                            className="text-muted-foreground transition-colors hover:text-foreground cursor-pointer"
+                            href="/pricing"
+                        >
                             Pricing
                         </Link>
-                        <Link className="text-muted-foreground transition-colors hover:text-foreground" href="#architecture">
+                        <Link
+                            className="text-muted-foreground transition-colors hover:text-foreground cursor-pointer"
+                            href="/#lifecycle"
+                        >
                             Lifecycle
                         </Link>
                     </nav>
                 </div>
 
-                {/* Desktop Auth */}
+                {/* Desktop Auth Buttons */}
                 <div className="hidden md:flex items-center space-x-3">
                     <Link href="/auth/login">
-                        <Button variant="ghost" size="sm" className="font-medium text-foreground hover:bg-brand-100/40">
+                        <Button variant="ghost" size="sm" className="font-medium text-foreground hover:bg-brand-100/50">
                             Log In
                         </Button>
                     </Link>
@@ -60,7 +69,7 @@ export function Navbar() {
                     </Link>
                 </div>
 
-                {/* Mobile Menu */}
+                {/* Mobile Menu Trigger */}
                 <Sheet open={isOpen} onOpenChange={setIsOpen}>
                     <SheetTrigger asChild>
                         <Button variant="ghost" size="icon" className="md:hidden text-foreground">
@@ -79,7 +88,7 @@ export function Navbar() {
 
                             <nav className="flex flex-col gap-3 text-sm font-medium">
                                 <Link
-                                    href="#features"
+                                    href="/#features"
                                     className="py-2 text-foreground/80 hover:text-brand-700 transition-colors"
                                     onClick={() => setIsOpen(false)}
                                 >
@@ -92,6 +101,13 @@ export function Navbar() {
                                 >
                                     Pricing
                                 </Link>
+                                <Link
+                                    href="/#lifecycle"
+                                    className="py-2 text-foreground/80 hover:text-brand-700 transition-colors"
+                                    onClick={() => setIsOpen(false)}
+                                >
+                                    Lifecycle
+                                </Link>
                             </nav>
 
                             <div className="h-px bg-border my-2" />
@@ -103,7 +119,7 @@ export function Navbar() {
                                     </Button>
                                 </Link>
                                 <Link href="/pricing" onClick={() => setIsOpen(false)}>
-                                    <Button className="w-full justify-center bg-brand-700 hover:bg-brand-800 text-white">
+                                    <Button className="w-full justify-center bg-brand-700 hover:bg-brand-800 text-white font-semibold">
                                         Get Started
                                     </Button>
                                 </Link>

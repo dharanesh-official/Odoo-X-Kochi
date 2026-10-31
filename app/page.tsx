@@ -1,5 +1,6 @@
 import { LandingHero } from '@/components/landing-hero'
 import { FeaturesGrid } from '@/components/features-grid'
+import { LifecycleSection } from '@/components/lifecycle-section'
 import { Navbar } from '@/components/navbar'
 import Link from 'next/link'
 import { Layers } from 'lucide-react'
@@ -11,6 +12,7 @@ export default function LandingPage() {
       <main className="flex-1">
         <LandingHero />
         <FeaturesGrid />
+        <LifecycleSection />
       </main>
       <footer className="border-t border-border/80 bg-muted/20 py-10 md:py-12">
         <div className="container max-w-7xl mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
@@ -24,11 +26,14 @@ export default function LandingPage() {
           </div>
 
           <div className="flex flex-wrap items-center gap-6 text-xs font-medium text-muted-foreground">
-            <Link href="#features" className="hover:text-foreground transition-colors">
+            <Link href="/#features" className="hover:text-foreground transition-colors">
               Features
             </Link>
             <Link href="/pricing" className="hover:text-foreground transition-colors">
               Pricing
+            </Link>
+            <Link href="/#lifecycle" className="hover:text-foreground transition-colors">
+              Lifecycle
             </Link>
             <Link href="/auth/login" className="hover:text-foreground transition-colors">
               Customer Portal
@@ -39,7 +44,7 @@ export default function LandingPage() {
           </div>
 
           <p className="text-xs text-muted-foreground">
-            &copy; {new Date().getFullYear()} Brightloop. Engineered by <strong>Dharanesh and Team</strong>.
+            &copy; {new Date().getFullYear()} Brightloop. Build by <strong>Dharanesh</strong>.
           </p>
         </div>
       </footer>
