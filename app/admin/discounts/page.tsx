@@ -21,8 +21,8 @@ export default async function DiscountsPage() {
     const discounts = await getDiscounts()
 
     // Fetch products for product-specific discounts
-    const { createClient } = await import('@/utils/supabase/server')
-    const supabase = await createClient()
+    const { createAdminClient } = await import('@/utils/supabase/admin')
+    const supabase = createAdminClient()
     const { data: products } = await supabase.from('products').select('id, name').eq('active', true)
 
     async function handleCreate(formData: FormData) {

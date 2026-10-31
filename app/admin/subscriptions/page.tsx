@@ -1,5 +1,5 @@
 
-import { createClient } from "@/utils/supabase/server"
+import { createAdminClient } from "@/utils/supabase/admin"
 export const dynamic = 'force-dynamic'
 import { revalidatePath } from "next/cache"
 import { Button } from "@/components/ui/button"
@@ -19,7 +19,7 @@ import { updateSubscriptionStatus } from "./actions"
 import RunBillingButton from "./run-billing-button"
 
 export default async function SubscriptionsPage() {
-    const supabase = await createClient()
+    const supabase = createAdminClient()
 
     const { data: subscriptions } = await supabase
         .from('subscriptions')

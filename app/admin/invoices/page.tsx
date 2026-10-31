@@ -1,4 +1,4 @@
-import { createClient } from "@/utils/supabase/server"
+import { createAdminClient } from "@/utils/supabase/admin"
 export const dynamic = 'force-dynamic'
 import { Button } from "@/components/ui/button"
 import {
@@ -24,7 +24,7 @@ export default async function InvoicesPage({
 }) {
     const params = searchParams ? await searchParams : {}
     const activeTab = params.status || 'all'
-    const supabase = await createClient()
+    const supabase = createAdminClient()
 
     const { data: rawInvoices } = await supabase
         .from('invoices')

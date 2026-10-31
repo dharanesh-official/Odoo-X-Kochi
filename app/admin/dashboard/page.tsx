@@ -1,11 +1,11 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { IndianRupee, Users, CreditCard, Activity } from "lucide-react"
-import { createClient } from '@/utils/supabase/server'
+import { createAdminClient } from '@/utils/supabase/admin'
 export const dynamic = 'force-dynamic'
 
 export default async function AdminDashboard() {
-    const supabase = await createClient()
+    const supabase = createAdminClient()
 
     // Fetch Revenue (Total of paid invoices)
     const { data: revenueData } = await supabase.from('invoices').select('amount_paid').eq('status', 'paid')

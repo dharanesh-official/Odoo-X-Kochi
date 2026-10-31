@@ -1,5 +1,5 @@
 
-import { createClient } from "@/utils/supabase/server"
+import { createAdminClient } from "@/utils/supabase/admin"
 export const dynamic = 'force-dynamic'
 import { Button } from "@/components/ui/button"
 import {
@@ -15,7 +15,7 @@ import { Plus } from "lucide-react"
 import DeleteProductButton from "./delete-button"
 
 export default async function ProductsPage() {
-    const supabase = await createClient()
+    const supabase = createAdminClient()
 
     const { data: products } = await supabase
         .from('products')

@@ -1,5 +1,5 @@
 
-import { createClient } from "@/utils/supabase/server"
+import { createAdminClient } from "@/utils/supabase/admin"
 export const dynamic = 'force-dynamic'
 import {
     Table,
@@ -15,7 +15,7 @@ import { Plus } from "lucide-react"
 import DeleteCustomerButton from "./delete-button"
 
 export default async function CustomersPage() {
-    const supabase = await createClient()
+    const supabase = createAdminClient()
     const { data: customers } = await supabase
         .from('customers')
         .select('*')

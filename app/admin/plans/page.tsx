@@ -1,5 +1,5 @@
 
-import { createClient } from "@/utils/supabase/server"
+import { createAdminClient } from "@/utils/supabase/admin"
 export const dynamic = 'force-dynamic'
 import { Button } from "@/components/ui/button"
 import {
@@ -16,7 +16,7 @@ import { formatCurrency } from "@/lib/utils"
 import DeletePlanButton from "./delete-button"
 
 export default async function PlansPage() {
-    const supabase = await createClient()
+    const supabase = createAdminClient()
 
     // Assuming `product_id` references `products.id`
     const { data: plans } = await supabase.from('plans').select('*, products(name)').order('created_at', { ascending: false })

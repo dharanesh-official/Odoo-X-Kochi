@@ -1,6 +1,6 @@
 import { getQuotationTemplates, createQuotationTemplate } from "./actions"
 export const dynamic = 'force-dynamic'
-import { createClient } from "@/utils/supabase/server"
+import { createAdminClient } from "@/utils/supabase/admin"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -16,7 +16,7 @@ import { FileText, Plus, Package } from "lucide-react"
 import { ManageLinesDialog } from "./manage-lines-dialog"
 
 export default async function QuotationsPage() {
-    const supabase = await createClient()
+    const supabase = createAdminClient()
     const [templates, { data: products }] = await Promise.all([
         getQuotationTemplates(),
         supabase.from('products').select('id, name').order('name')
