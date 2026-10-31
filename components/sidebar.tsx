@@ -1,28 +1,10 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { logout } from "@/app/auth/actions"
-import {
-    Home,
-    Package,
-    ShoppingCart,
-    Users,
-    Settings,
-    Wallet,
-    LogOut,
-    Zap,
-    Briefcase,
-    IndianRupee,
-    FileText,
-    Percent,
-    Tag,
-    BarChart3,
-    Receipt,
-    ShieldCheck,
-    User
-} from "lucide-react"
+import { Zap, LogOut } from "lucide-react"
 import { createClient } from "@/utils/supabase/server"
 import { cn } from "@/lib/utils"
-import { SidebarItem } from "./sidebar-item"
+import { SidebarNav } from "./sidebar-nav"
 
 interface SidebarProps {
     role: 'admin' | 'customer'
@@ -70,87 +52,9 @@ export default async function Sidebar({ role, className }: SidebarProps) {
                     </Link>
                 </div>
 
-                {/* Navigation Links */}
+                {/* Navigation Links Rendered via Client Component */}
                 <div className="flex-1 overflow-y-auto px-3 py-3">
-                    <nav className="space-y-4">
-                        {role === 'admin' ? (
-                            <>
-                                <div>
-                                    <div className="px-3 pb-1.5 text-[11px] font-semibold tracking-wider text-muted-foreground/70 uppercase">
-                                        Core Operations
-                                    </div>
-                                    <div className="space-y-1">
-                                        <SidebarItem href="/admin/dashboard" icon={Home} title="Dashboard" />
-                                        <SidebarItem href="/admin/subscriptions" icon={ShoppingCart} title="Subscriptions" />
-                                        <SidebarItem href="/admin/invoices" icon={Receipt} title="Invoices" />
-                                        <SidebarItem href="/admin/payments" icon={IndianRupee} title="Payments" />
-                                        <SidebarItem href="/admin/quotations" icon={FileText} title="Quotations" />
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <div className="px-3 pb-1.5 text-[11px] font-semibold tracking-wider text-muted-foreground/70 uppercase">
-                                        Catalog & Pricing
-                                    </div>
-                                    <div className="space-y-1">
-                                        <SidebarItem href="/admin/products" icon={Package} title="Products" />
-                                        <SidebarItem href="/admin/plans" icon={Briefcase} title="Plans" />
-                                        <SidebarItem href="/admin/discounts" icon={Tag} title="Discounts" />
-                                        <SidebarItem href="/admin/taxes" icon={Percent} title="Taxes" />
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <div className="px-3 pb-1.5 text-[11px] font-semibold tracking-wider text-muted-foreground/70 uppercase">
-                                        Users & Analytics
-                                    </div>
-                                    <div className="space-y-1">
-                                        <SidebarItem href="/admin/customers" icon={Users} title="Customers" />
-                                        <SidebarItem href="/admin/users" icon={Users} title="Internal Staff" />
-                                        <SidebarItem href="/admin/reports" icon={BarChart3} title="Reports" />
-                                        <SidebarItem href="/admin/audit-logs" icon={ShieldCheck} title="Audit Logs" />
-                                        <SidebarItem href="/admin/settings" icon={Settings} title="Settings" />
-                                    </div>
-                                </div>
-                            </>
-                        ) : (
-                            <>
-                                <div>
-                                    <div className="px-3 pb-1.5 text-[11px] font-semibold tracking-wider text-muted-foreground/70 uppercase">
-                                        Overview
-                                    </div>
-                                    <div className="space-y-1">
-                                        <SidebarItem href="/dashboard" icon={Home} title="Overview" />
-                                        <SidebarItem
-                                            href="/dashboard/subscriptions"
-                                            icon={ShoppingCart}
-                                            title="My Subscriptions"
-                                            badge={subCount > 0 ? subCount : null}
-                                        />
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <div className="px-3 pb-1.5 text-[11px] font-semibold tracking-wider text-muted-foreground/70 uppercase">
-                                        Financial Records
-                                    </div>
-                                    <div className="space-y-1">
-                                        <SidebarItem href="/dashboard/invoices" icon={Receipt} title="Invoices" />
-                                        <SidebarItem href="/dashboard/payments" icon={Wallet} title="Payments" />
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <div className="px-3 pb-1.5 text-[11px] font-semibold tracking-wider text-muted-foreground/70 uppercase">
-                                        Account
-                                    </div>
-                                    <div className="space-y-1">
-                                        <SidebarItem href="/dashboard/profile" icon={User} title="My Profile" />
-                                    </div>
-                                </div>
-                            </>
-                        )}
-                    </nav>
+                    <SidebarNav role={role} subCount={subCount} />
                 </div>
 
                 {/* User Info & Logout Footer */}
